@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Kompetensi Manajerial & Sosial Kultural</title>
+    <style>
+        /* Gaya dasar untuk body */
+        body {
+            font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
+            margin: 0;
+            background-color: #f0f2f5; /* Warna latar belakang lembut */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Mengatur konten di bagian atas */
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        /* Gaya kontainer utama aplikasi */
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px; /* Sudut membulat */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Bayangan lebih dalam */
+            width: 100%;
+            max-width: 960px; /* Lebar maksimum lebih besar */
+            padding: 30px 50px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards; /* Animasi fade-in */
+        }
+
+        /* Animasi fade-in */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Gaya judul */
+        h1, h2, h3 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700; /* Lebih tebal */
+        }
+
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; }
+        h3 { font-size: 1.6em; }
+
+        /* Gaya grid untuk pilihan seksi */
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Kolom adaptif */
+            gap: 25px; /* Jarak antar kartu */
+            margin-top: 30px;
+        }
+
+        /* Gaya kartu seksi */
+        .section-card {
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Transisi halus */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #e0e0e0; /* Border tipis */
+        }
+
+        .section-card:hover {
+            background-color: #dfe6e9;
+            transform: translateY(-7px); /* Efek angkat */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #34495e;
+            font-size: 1.4em;
+        }
+
+        .section-card p {
+            font-size: 0.95em;
+            color: #555;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        /* Gaya tombol */
+        .button {
+            display: inline-block;
+            background-color: #3498db; /* Warna biru cerah */
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 15px;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #2980b9; /* Warna biru lebih gelap saat hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gaya untuk bagian soal dan hasil (tersembunyi secara default) */
+        .question-section, .result-section, .test-type-selection-section, .test-history-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* Gaya kontainer soal */
+        .question-container {
+            background-color: #fcfcfc;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: #444;
+            font-weight: 500;
+        }
+
+        /* Gaya opsi jawaban */
+        .options label {
+            display: block;
+            background-color: #f7f9fb;
+            border: 1px solid #dcdcdc;
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .options label:hover {
+            background-color: #eaf1f7;
+            border-color: #c9d8e4;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 18px;
+            transform: scale(1.3); /* Ukuran radio button lebih besar */
+            accent-color: #3498db;
+            cursor: pointer;
+        }
+
+        /* Gaya tombol navigasi */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap; /* Untuk responsif */
+            gap: 15px; /* Jarak antar tombol */
+        }
+
+        .navigation-buttons .button {
+            margin-top: 0; /* Override margin-top dari .button */
+        }
+
+        /* Gaya penjelasan jawaban */
+        .explanation {
+            background-color: #e6f7ff; /* Warna biru muda */
+            border-left: 6px solid #3498db; /* Border kiri tebal */
+            padding: 20px 25px;
+            margin-top: 25px;
+            border-radius: 8px;
+            display: none; /* Tersembunyi secara default */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .explanation p {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+        .explanation strong {
+            color: #3498db;
+        }
+
+        /* Gaya feedback jawaban */
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .feedback.correct {
+            color: #27ae60; /* Hijau untuk benar */
+            background-color: #e6ffe6;
+            border: 1px solid #27ae60;
+        }
+        .feedback.incorrect {
+            color: #e74c3c; /* Merah untuk salah */
+            background-color: #ffe6e6;
+            border: 1px solid #e74c3c;
+        }
+
+        /* Gaya bagian hasil */
+        .result-section {
+            text-align: center;
+        }
+        .result-section p {
+            font-size: 1.15em;
+            margin-bottom: 12px;
+            color: #555;
+        }
+        .result-section strong {
+            color: #3498db;
+            font-weight: 700;
+        }
+        .result-section #userScore {
+            font-size: 2em;
+            color: #27ae60; /* Warna hijau untuk skor */
+            margin-top: 20px;
+            display: block;
+        }
+
+        /* Gaya tombol kembali */
+        .back-button {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* Gaya loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9); /* Sedikit transparan */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
+
+        .loading-overlay.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        /* Gaya untuk header autentikasi */
+        .auth-header {
+            display: flex;
+            justify-content: flex-end; /* Pindahkan ke kanan */
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .auth-info {
+            display: none; /* Sembunyikan info auth karena tidak ada login */
+        }
+
+        .google-signin-button, .logout-button {
+            display: none !important; /* Sembunyikan tombol login/logout */
+        }
+
+        /* Gaya untuk riwayat tes */
+        .test-history-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .test-history-item {
+            background-color: #f7f9fb;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .test-history-item strong {
+            color: #34495e;
+        }
+
+        .test-history-item .score {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1em;
+        }
+
+        /* Media queries untuk responsif */
+        @media (max-width: 768px) {
+            .auth-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .auth-info {
+                width: 100%;
+                justify-content: center;
+            }
+            .google-signin-button, .logout-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p class="loading-text" id="loadingText">Memuat soal...</p>
+    </div>
+
+    <!-- Dashboard - Tampilan awal -->
+    <div class="container" id="dashboard">
+        <div class="auth-header">
+            <div id="authStatus" class="auth-info">
+                <!-- Status autentikasi akan dimuat di sini -->
+            </div>
+            <div id="authButtons">
+                <!-- Tombol login/logout dihapus karena tidak ada Firebase -->
+            </div>
+        </div>
+
+        <h1>Tes Kompetensi Manajerial dan Sosial Kultural</h1>
+        <p style="text-align: center; font-size: 1.1em; color: #555;">Selamat datang, Ari! Pilih seksi penempatan untuk memulai tes asesmen Anda di Kementerian ATR/BPN.</p>
+        <p style="text-align: center; font-size: 0.9em; color: #777;">Tes ini mengacu pada PermenPAN-RB No. 38 Tahun 2017.</p>
+
+        <div class="section-grid">
+            <div class="section-card" data-section="Seksi Survei dan Pemetaan">
+                <h3>Seksi Survei dan Pemetaan</h3>
+                <p>Menguji kompetensi terkait pengukuran, pemetaan, dan analisis data spasial menggunakan alat seperti GNSS dan drone.</p>
+                <button class="button" onclick="startTest('Seksi Survei dan Pemetaan')">Mulai Tes</button>
+            </div>
+            <div class="section-card" data-section="Seksi Penetapan Hak dan Pendaftaran">
+                <h3>Seksi Penetapan Hak dan Pendaftaran</h3>
+                <p>Menguji pemahaman tentang prosedur pendaftaran hak tanah, legalitas, dan administrasi pertanahan.</p>
+                <button class="button" onclick="startTest('Seksi Penetapan Hak dan Pendaftaran')">Mulai Tes</button>
+            </div>
+            <div class="section-card" data-section="Seksi Penataan dan Pemberdayaan">
+                <h3>Seksi Penataan dan Pemberdayaan</h3>
+                <p>Menguji kompetensi dalam penataan ruang, pemberdayaan masyarakat, dan pengembangan wilayah.</p>
+                <button class="button" onclick="startTest('Seksi Penataan dan Pemberdayaan')">Mulai Tes</button>
+            </div>
+            <div class="section-card" data-section="Seksi Pengadaan Tanah dan Pengembangan">
+                <h3>Seksi Pengadaan Tanah dan Pengembangan</h3>
+                <p>Menguji kemampuan dalam proses pengadaan tanah untuk pembangunan infrastruktur dan pengembangan kawasan.</p>
+                <button class="button" onclick="startTest('Seksi Pengadaan Tanah dan Pengembangan')">Mulai Tes</button>
+            </div>
+            <div class="section-card" data-section="Seksi Pengendalian dan Penanganan Sengketa">
+                <h3>Seksi Pengendalian dan Penanganan Sengketa</h3>
+                <p>Menguji kompetensi dalam penyelesaian sengketa, konflik pertanahan, dan penegakan hukum agraria.</p>
+                <button class="button" onclick="startTest('Seksi Pengendalian dan Penanganan Sengketa')">Mulai Tes</button>
+            </div>
+            <div class="section-card" data-section="Tata Usaha">
+                <h3>Tata Usaha</h3>
+                <p>Menguji kompetensi manajerial, administrasi umum perkantoran, dan pengelolaan sumber daya organisasi.</p>
+                <button class="button" onclick="startTest('Tata Usaha')">Mulai Tes</button>
+            </div>
+        </div>
+        <div class="back-button" style="margin-top: 30px;">
+            <button class="button" onclick="viewTestHistory()">Lihat Riwayat Tes</button>
+        </div>
+    </div>
+
+    <!-- Bagian Pemilihan Tipe Tes -->
+    <div class="container test-type-selection-section" id="testTypeSelectionSection">
+        <h2 id="testTypeSelectionTitle"></h2>
+        <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Pilih jenis tes yang ingin Anda ikuti untuk seksi ini:</p>
+        <div class="section-grid" style="grid-template-columns: 1fr 1fr; max-width: 600px; margin: 0 auto; gap: 30px;">
+            <div class="section-card" onclick="loadQuestionsByType('mansoskul')">
+                <h3>Tes Manajerial & Sosial Kultural</h3>
+                <p>50 Soal</p>
+                <button class="button">Mulai Tes</button>
+            </div>
+            <div class="section-card" onclick="loadQuestionsByType('teknis')">
+                <h3>Tes Teknis</h3>
+                <p>50 Soal</p>
+                <button class="button">Mulai Tes</button>
+            </div>
+        </div>
+        <div class="back-button">
+            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Bagian Tes - Akan ditampilkan setelah memilih tipe tes -->
+    <div class="container question-section" id="questionSection">
+        <h2 id="currentSectionTitle"></h2>
+        <div id="questionContainer">
+            <!-- Soal akan dimuat secara dinamis di sini -->
+        </div>
+        <div class="navigation-buttons">
+            <button class="button" id="prevQuestionBtn" onclick="prevQuestion()" style="display: none;">Soal Sebelumnya</button>
+            <button class="button" id="nextQuestionBtn" onclick="nextQuestion()">Soal Berikutnya</button>
+            <button class="button" id="submitTestBtn" onclick="submitTest()" style="display: none;">Selesai Tes</button>
+        </div>
+        <div class="back-button">
+            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Bagian Riwayat Tes -->
+    <div class="container test-history-section" id="testHistorySection">
+        <h2>Riwayat Tes Anda</h2>
+        <p style="text-align: center; color: #777; font-size: 0.9em; margin-bottom: 20px;">Riwayat tes ini disimpan di browser Anda. Jika Anda menghapus data browser atau menggunakan perangkat lain, riwayat ini tidak akan terlihat.</p>
+        <div id="historyContent">
+            <p id="noHistoryMessage" style="text-align: center; color: #777; display: none;">Anda belum memiliki riwayat tes. Ikuti tes untuk menyimpannya!</p>
+            <ul id="testHistoryList" class="test-history-list">
+                <!-- Riwayat tes akan dimuat di sini -->
+            </ul>
+        </div>
+        <div class="back-button">
+            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Bagian Hasil - Akan ditampilkan setelah tes selesai -->
+    <div class="container result-section" id="resultSection">
+        <h2>Hasil Tes Anda</h2>
+        <p>Seksi yang Diambil: <strong id="resultSectionName"></strong></p>
+        <p>Tipe Tes: <strong id="resultTestType"></strong></p>
+        <p>Total Soal Dijawab: <strong id="totalAnsweredQuestionsResult"></strong> dari <strong id="totalQuestionsResult"></strong></p>
+        <p>Jawaban Benar: <strong id="correctAnswersResult"></strong></p>
+        <p>Skor Anda: <strong id="userScore"></strong></p>
+        <div class="back-button">
+            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Variabel global untuk state aplikasi
+        let currentSection = ''; // Seksi yang sedang aktif
+        let currentTestType = ''; // Tipe tes yang sedang aktif (mansoskul/teknis)
+        let currentQuestions = []; // Array soal untuk seksi dan tipe tes saat ini
+        let currentQuestionIndex = 0; // Indeks soal yang sedang ditampilkan
+        let userAnswers = []; // Array untuk menyimpan jawaban pengguna
+        let score = 0; // Skor total
+
+        // Pemetaan kompetensi sesuai PermenPAN-RB No. 38 Tahun 2017
+        const competencyMapping = {
+            "Integritas": "Mampu bertindak sesuai nilai, norma dan etika organisasi dalam kapasitas pribadi.",
+            "Kerjasama": "Mampu menjalin, membina, mempertahankan hubungan kerja yang efektif.",
+            "Komunikasi": "Mampu berkomunikasi secara efektif.",
+            "Orientasi pada hasil": "Mampu mempertahankan komitmen pribadi yang tinggi untuk menyelesaikan tugas.",
+            "Pelayanan publik": "Mampu melayani kebutuhan pemangku kepentingan.",
+            "Pengembangan diri dan orang lain": "Mampu meningkatkan kemampuan diri dan orang lain.",
+            "Mengelola perubahan": "Mampu menyesuaikan diri dengan situasi baru dan mampu memimpin perubahan.",
+            "Pengambilan keputusan": "Mampu membuat keputusan yang tepat waktu dan akurat.",
+            "Perekat bangsa": "Mampu mempromosikan sikap saling menghargai dan tidak diskriminatif.",
+            // Kompetensi Teknis (dummy)
+            "Analisis Data Spasial": "Mampu menganalisis dan menginterpretasi data geografis dengan akurat.",
+            "Penggunaan Alat GNSS": "Mampu mengoperasikan, mengkalibrasi, dan memelihara perangkat GNSS untuk akuisisi data spasial.",
+            "Regulasi Pertanahan": "Memahami dan menerapkan peraturan perundang-undangan pertanahan serta kebijakan terkait.",
+            "Manajemen Dokumen": "Mampu mengelola, mengarsipkan, dan mengamankan dokumen pertanahan secara sistematis.",
+            "Perencanaan Tata Ruang": "Mampu menyusun, mengevaluasi, dan mengimplementasikan rencana tata ruang wilayah."
+        };
+
+        // Daftar kompetensi untuk dipilih secara acak
+        const competencies = Object.keys(competencyMapping);
+
+        // Fungsi untuk menghasilkan soal dummy secara programatis dengan variasi
+        function generateComplexDummyQuestions(sectionName, type) {
+            const questions = [];
+            let competenciesToUse = [];
+            let baseQuestionsToUse = [];
+
+            if (type === 'mansoskul') {
+                // Filter kompetensi mansoskul (bukan teknis)
+                competenciesToUse = competencies.filter(comp => !['Analisis Data Spasial', 'Penggunaan Alat GNSS', 'Regulasi Pertanahan', 'Manajemen Dokumen', 'Perencanaan Tata Ruang'].includes(comp));
+                baseQuestionsToUse = [
+                    // Contoh soal Manajerial & Sosial Kultural
+                    {
+                        question: "Anda menemukan adanya praktik pungutan liar kecil di lingkungan kerja yang sudah berlangsung lama dan dianggap 'biasa'. Apa tindakan paling tepat yang Anda ambil sebagai seorang PPPK?",
+                        options: [
+                            "Mengabaikannya karena itu sudah menjadi kebiasaan dan tidak ingin menimbulkan konflik.",
+                            "Melaporkan langsung ke atasan tertinggi tanpa bukti kuat, berharap ada tindakan segera.",
+                            "Mengumpulkan bukti-bukti yang relevan secara diam-diam dan melaporkannya melalui saluran yang tepat sesuai prosedur yang berlaku.",
+                            "Mencoba menghentikan praktik tersebut secara personal dengan menegur pelaku secara langsung."
+                        ],
+                        answer: 2,
+                        explanation: "Tindakan yang paling tepat adalah menunjukkan **Integritas** dengan mengumpulkan bukti dan melaporkannya melalui saluran resmi. Ini menjaga objektivitas dan memastikan tindakan yang diambil sesuai prosedur, bukan emosional. (Kompetensi: Integritas)",
+                        competency: ["Integritas"]
+                    },
+                    {
+                        question: "Tim Anda sedang mengerjakan proyek penting dengan tenggat waktu ketat. Salah satu anggota tim sering terlambat menyerahkan bagiannya, menghambat kemajuan. Bagaimana Anda menyikapi situasi ini untuk menjaga **Orientasi pada Hasil**?",
+                        options: [
+                            "Mengerjakan bagiannya sendiri agar proyek selesai tepat waktu, tanpa memberitahu anggota tim tersebut.",
+                            "Melaporkan langsung kepada atasan tanpa mencoba berkomunikasi terlebih dahulu dengan anggota tim yang bersangkutan.",
+                            "Mengajak anggota tim tersebut berbicara secara pribadi untuk memahami kendalanya dan menawarkan bantuan atau solusi, sambil tetap memantau progres.",
+                            "Mengeluarkan anggota tim tersebut dari proyek karena dianggap tidak kompeten."
+                        ],
+                        answer: 2,
+                        explanation: "Pendekatan terbaik adalah menunjukkan **Orientasi pada Hasil** dengan tetap menjaga **Kerjasama** dan **Komunikasi**. Mencari tahu akar masalah dan menawarkan solusi adalah cara proaktif untuk memastikan proyek selesai. (Kompetensi: Orientasi pada hasil, Kerjasama, Komunikasi)",
+                        competency: ["Orientasi pada hasil", "Kerjasama", "Komunikasi"]
+                    },
+                    {
+                        question: "Anda ditugaskan untuk memimpin tim yang terdiri dari individu dengan latar belakang budaya dan pendidikan yang sangat beragam. Bagaimana Anda memastikan tim tetap solid dan produktif, mencerminkan **Perekat Bangsa**?",
+                        options: [
+                            "Menetapkan aturan yang sangat ketat untuk menghindari konflik antar anggota tim.",
+                            "Hanya berinteraksi dengan anggota tim yang memiliki latar belakang serupa dengan Anda untuk kemudahan komunikasi.",
+                            "Mendorong diskusi terbuka, menghargai setiap perbedaan pendapat, dan mencari titik temu untuk mencapai tujuan bersama.",
+                            "Mendelegasikan tugas berdasarkan kesamaan latar belakang untuk menghindari gesekan."
+                        ],
+                        answer: 2,
+                        explanation: "Mendorong diskusi terbuka dan menghargai perbedaan adalah kunci untuk menjadi **Perekat Bangsa** dan membangun **Kerjasama** yang efektif dalam tim yang beragam. (Kompetensi: Perekat bangsa, Kerjasama)",
+                        competency: ["Perekat bangsa", "Kerjasama"]
+                    },
+                    {
+                        question: "Kementerian Anda akan menerapkan sistem baru yang mengubah alur kerja secara drastis. Banyak rekan kerja menunjukkan resistensi dan kekhawatiran. Sebagai seorang PPPK, bagaimana Anda menunjukkan kemampuan **Mengelola Perubahan**?",
+                        options: [
+                            "Membiarkan rekan kerja beradaptasi sendiri karena perubahan adalah bagian dari pekerjaan.",
+                            "Menyampaikan kekhawatiran rekan-rekan kepada atasan tanpa menawarkan solusi.",
+                            "Memahami kekhawatiran mereka, memberikan informasi yang jelas tentang manfaat sistem baru, dan membantu mereka beradaptasi melalui pelatihan atau pendampingan.",
+                            "Menuntut rekan kerja untuk segera menerima perubahan tanpa banyak pertanyaan."
+                        ],
+                        answer: 2,
+                        explanation: "Kemampuan **Mengelola Perubahan** melibatkan empati, **Komunikasi** yang efektif, dan inisiatif untuk membantu orang lain beradaptasi. (Kompetensi: Mengelola perubahan, Komunikasi, Pengembangan diri dan orang lain)",
+                        competency: ["Mengelola perubahan", "Komunikasi", "Pengembangan diri dan orang lain"]
+                    },
+                    {
+                        question: "Seorang warga datang ke kantor Anda dengan keluhan yang rumit dan emosional terkait pelayanan yang ia terima. Bagaimana Anda menunjukkan **Pelayanan Publik** yang prima?",
+                        options: [
+                            "Meminta warga tersebut untuk mengisi formulir keluhan dan menunggu prosesnya.",
+                            "Mendengarkan keluhannya dengan sabar, menunjukkan empati, dan menjelaskan langkah-langkah penyelesaian yang mungkin bisa diambil.",
+                            "Menyalahkan bagian lain atas masalah yang terjadi dan meminta warga untuk mengurusnya sendiri.",
+                            "Menginterupsi keluhan warga dan langsung memberikan solusi tanpa mendengarkan detailnya."
+                        ],
+                        answer: 1,
+                        explanation: "Menunjukkan **Pelayanan Publik** yang prima berarti mendengarkan dengan empati, memberikan informasi yang jelas, dan membimbing pemohon melalui proses penyelesaian. (Kompetensi: Pelayanan publik, Komunikasi)",
+                        competency: ["Pelayanan publik", "Komunikasi"]
+                    },
+                    {
+                        question: "Anda diminta untuk mengambil keputusan penting yang berdampak pada banyak pihak, namun informasinya terbatas dan waktu sangat mepet. Bagaimana Anda menunjukkan kemampuan **Pengambilan Keputusan** yang efektif?",
+                        options: [
+                            "Menunda keputusan sampai semua informasi lengkap, meskipun itu berarti melewati tenggat waktu.",
+                            "Mengambil keputusan berdasarkan insting atau pengalaman pribadi tanpa pertimbangan lebih lanjut.",
+                            "Mengidentifikasi informasi krusial yang tersedia, berkonsultasi dengan pihak terkait yang relevan, dan membuat keputusan terbaik berdasarkan data yang ada, sambil siap untuk menyesuaikan jika ada informasi baru.",
+                            "Mendelegasikan keputusan sepenuhnya kepada bawahan untuk menghindari tanggung jawab."
+                        ],
+                        answer: 2,
+                        explanation: "**Pengambilan Keputusan** yang efektif dalam situasi sulit melibatkan analisis informasi yang ada, konsultasi, dan kesiapan untuk beradaptasi. Ini juga menunjukkan **Orientasi pada Hasil**. (Kompetensi: Pengambilan keputusan, Orientasi pada hasil, Komunikasi)",
+                        competency: ["Pengambilan keputusan", "Orientasi pada hasil", "Komunikasi"]
+                    },
+                    {
+                        question: "Anda menyadari bahwa ada kesenjangan pengetahuan yang signifikan di tim Anda mengenai penggunaan perangkat lunak baru yang krusial untuk pekerjaan. Bagaimana Anda menunjukkan **Pengembangan Diri dan Orang Lain**?",
+                        options: [
+                            "Berharap atasan akan mengadakan pelatihan suatu saat nanti.",
+                            "Mempelajari perangkat lunak itu sendiri dan tidak membagikan pengetahuan Anda.",
+                            "Menginisiasi sesi berbagi pengetahuan internal, membuat panduan singkat, atau mengusulkan pelatihan kepada manajemen.",
+                            "Menganggap itu bukan tanggung jawab Anda untuk mengembangkan orang lain."
+                        ],
+                        answer: 2,
+                        explanation: "Menginisiasi sesi berbagi pengetahuan atau mengusulkan pelatihan menunjukkan proaktivitas dalam **Pengembangan Diri dan Orang Lain** serta **Kerjasama**. (Kompetensi: Pengembangan diri dan orang lain, Kerjasama)",
+                        competency: ["Pengembangan diri dan orang lain", "Kerjasama"]
+                    }
+                ];
+            } else if (type === 'teknis') {
+                competenciesToUse = ['Analisis Data Spasial', 'Penggunaan Alat GNSS', 'Regulasi Pertanahan', 'Manajemen Dokumen', 'Perencanaan Tata Ruang'];
+                baseQuestionsToUse = [
+                    // Contoh soal Teknis
+                    {
+                        question: "Dalam survei pertanahan, Anda mendapatkan data GNSS yang menunjukkan deviasi signifikan dari batas bidang yang sudah terdaftar. Apa langkah pertama yang harus Anda lakukan?",
+                        options: [
+                            "Langsung mengoreksi data sesuai batas terdaftar.",
+                            "Melaporkan anomali tersebut dan melakukan verifikasi ulang di lapangan dengan metode yang berbeda.",
+                            "Mengabaikan deviasi jika selisihnya kecil.",
+                            "Menggunakan data lama sebagai acuan utama."
+                        ],
+                        answer: 1,
+                        explanation: "Langkah pertama adalah verifikasi dan pelaporan anomali untuk memastikan akurasi data spasial. Ini menunjukkan kompetensi **Analisis Data Spasial** dan **Integritas**. (Kompetensi: Analisis Data Spasial, Integritas)",
+                        competency: ["Analisis Data Spasial", "Integritas"]
+                    },
+                    {
+                        question: "Anda perlu mengoperasikan perangkat GNSS terbaru yang belum pernah Anda gunakan sebelumnya. Bagaimana Anda memastikan pengoperasian yang benar dan efisien?",
+                        options: [
+                            "Mencoba mengoperasikannya secara trial-and-error di lapangan.",
+                            "Meminta rekan yang lebih senior untuk mengoperasikannya sepenuhnya.",
+                            "Membaca manual pengguna secara cermat, mencari tutorial online, dan melakukan simulasi sebelum penggunaan sebenarnya.",
+                            "Hanya menggunakan fitur dasar yang sudah Anda pahami."
+                        ],
+                        answer: 2,
+                        explanation: "Mempelajari manual dan melakukan simulasi menunjukkan inisiatif dalam **Penggunaan Alat GNSS** dan **Pengembangan Diri**. (Kompetensi: Penggunaan Alat GNSS, Pengembangan diri dan orang lain)",
+                        competency: ["Penggunaan Alat GNSS", "Pengembangan diri dan orang lain"]
+                    },
+                    {
+                        question: "Sebuah kasus sengketa tanah melibatkan interpretasi pasal-pasal dalam Undang-Undang Pokok Agraria (UUPA) yang kompleks. Bagaimana Anda mendekati penyelesaian kasus ini?",
+                        options: [
+                            "Mengambil keputusan berdasarkan pengalaman kasus serupa di masa lalu.",
+                            "Berkonsultasi dengan ahli hukum pertanahan dan merujuk pada putusan pengadilan terkait.",
+                            "Meminta kedua belah pihak untuk mencari solusi sendiri.",
+                            "Menunda penanganan kasus sampai ada kejelasan dari pimpinan."
+                        ],
+                        answer: 1,
+                        explanation: "Menyelesaikan kasus yang melibatkan **Regulasi Pertanahan** yang kompleks memerlukan rujukan pada sumber hukum yang valid dan konsultasi dengan ahli. Ini menunjukkan **Pengambilan Keputusan** yang tepat. (Kompetensi: Regulasi Pertanahan, Pengambilan keputusan)",
+                        competency: ["Regulasi Pertanahan", "Pengambilan keputusan"]
+                    },
+                    {
+                        question: "Anda bertanggung jawab atas pengarsipan ribuan dokumen pertanahan. Bagaimana Anda memastikan dokumen-dokumen tersebut mudah ditemukan dan aman dari kerusakan?",
+                        options: [
+                            "Menyimpan semua dokumen dalam satu folder besar untuk efisiensi.",
+                            "Menggunakan sistem penomoran acak untuk mencegah pencurian.",
+                            "Menerapkan sistem klasifikasi dan penomoran yang sistematis, serta mendigitalkan dokumen penting sebagai cadangan.",
+                            "Meminta staf lain untuk mengelola arsip karena bukan tugas utama Anda."
+                        ],
+                        answer: 2,
+                        explanation: "Menerapkan sistem klasifikasi dan digitasi adalah praktik terbaik dalam **Manajemen Dokumen** untuk memastikan aksesibilitas dan keamanan. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
+                        competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
+                    },
+                    {
+                        question: "Dalam proses penyusunan Rencana Detail Tata Ruang (RDTR) kota, Anda menghadapi perbedaan pendapat yang tajam antara berbagai pemangku kepentingan (pengembang, masyarakat lokal, lingkungan). Bagaimana Anda mengelola situasi ini?",
+                        options: [
+                            "Memihak pada satu kelompok yang paling berpengaruh untuk mempercepat proses.",
+                            "Mengadakan serangkaian forum diskusi partisipatif untuk mencapai konsensus yang adil dan berkelanjutan.",
+                            "Menunda penyusunan RDTR sampai semua pihak setuju secara mutlak.",
+                            "Mengabaikan masukan dari pihak yang dianggap tidak penting."
+                        ],
+                        answer: 1,
+                        explanation: "Mengelola perbedaan pendapat dalam **Perencanaan Tata Ruang** memerlukan **Komunikasi** yang efektif dan **Kerjasama** untuk mencapai konsensus yang inklusif. (Kompetensi: Perencanaan Tata Ruang, Komunikasi, Kerjasama)",
+                        competency: ["Perencanaan Tata Ruang", "Komunikasi", "Kerjasama"]
+                    }
+                ];
+            }
+
+            const numQuestionsToGenerate = 50; // Setiap tipe akan memiliki 50 soal
+
+            for (let i = 0; i < numQuestionsToGenerate; i++) {
+                const baseQ = baseQuestionsToUse[i % baseQuestionsToUse.length];
+                const randomCompetency = baseQ.competency[Math.floor(Math.random() * baseQ.competency.length)];
+
+                // Modifikasi soal agar terasa unik setiap kali
+                const modifiedQuestion = baseQ.question.replace("Anda menemukan", `Sebagai PPPK di ${sectionName}, Anda dihadapkan pada situasi di mana Anda menemukan`);
+                const modifiedExplanation = baseQ.explanation.replace("Ini adalah pembahasan", `Untuk soal nomor ${i + 1} (${type}), ini adalah pembahasan`);
+
+                questions.push({
+                    id: `${sectionName}-${type}-${i + 1}`,
+                    question: modifiedQuestion,
+                    options: [...baseQ.options], // Salin opsi
+                    answer: baseQ.answer,
+                    explanation: modifiedExplanation,
+                    competency: [randomCompetency],
+                    type: type // Menandai tipe soal
+                });
+            }
+            return questions;
+        }
+
+        // Data soal dummy untuk setiap seksi, dibagi berdasarkan tipe
+        const allDummyQuestions = {
+            "Seksi Survei dan Pemetaan": {
+                'mansoskul': generateComplexDummyQuestions("Seksi Survei dan Pemetaan", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Seksi Survei dan Pemetaan", 'teknis')
+            },
+            "Seksi Penetapan Hak dan Pendaftaran": {
+                'mansoskul': generateComplexDummyQuestions("Seksi Penetapan Hak dan Pendaftaran", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Seksi Penetapan Hak dan Pendaftaran", 'teknis')
+            },
+            "Seksi Penataan dan Pemberdayaan": {
+                'mansoskul': generateComplexDummyQuestions("Seksi Penataan dan Pemberdayaan", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Seksi Penataan dan Pemberdayaan", 'teknis')
+            },
+            "Seksi Pengadaan Tanah dan Pengembangan": {
+                'mansoskul': generateComplexDummyQuestions("Seksi Pengadaan Tanah dan Pengembangan", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Seksi Pengadaan Tanah dan Pengembangan", 'teknis')
+            },
+            "Seksi Pengendalian dan Penanganan Sengketa": {
+                'mansoskul': generateComplexDummyQuestions("Seksi Pengendalian dan Penanganan Sengketa", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Seksi Pengendalian dan Penanganan Sengketa", 'teknis')
+            },
+            "Tata Usaha": {
+                'mansoskul': generateComplexDummyQuestions("Tata Usaha", 'mansoskul'),
+                'teknis': generateComplexDummyQuestions("Tata Usaha", 'teknis')
+            }
+        };
+
+        // --- Fungsi UI Helper ---
+        function showLoading(message = "Memuat soal...") {
+            document.getElementById('loadingText').textContent = message;
+            document.getElementById('loadingOverlay').classList.add('visible');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('visible');
+        }
+
+        function hideAllSections() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('testTypeSelectionSection').style.display = 'none';
+            document.getElementById('testHistorySection').style.display = 'none';
+        }
+
+        window.goToDashboard = function() { // Make global
+            hideAllSections();
+            document.getElementById('dashboard').style.display = 'block';
+            resetTest(); // Reset state tes saat kembali ke dashboard
+        }
+
+        function resetTest() {
+            currentSection = '';
+            currentTestType = '';
+            currentQuestions = [];
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+        }
+
+        // --- Fungsi Alur Tes ---
+        window.startTest = function(section) { // Make global
+            currentSection = section;
+            hideAllSections();
+            document.getElementById('testTypeSelectionSection').style.display = 'block'; // Tampilkan pilihan tipe tes
+            document.getElementById('testTypeSelectionTitle').textContent = `Pilih Tipe Tes untuk ${section}`;
+            resetTest(); // Reset state, tapi soal belum dimuat
+        }
+
+        window.loadQuestionsByType = async function(type) { // Make global
+            currentTestType = type; // Simpan tipe tes yang dipilih
+            hideAllSections();
+            document.getElementById('questionSection').style.display = 'block'; // Tampilkan bagian soal
+            document.getElementById('currentSectionTitle').textContent = `Tes Kompetensi ${currentSection} - ${type === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis'}`;
+
+            showLoading(`Memuat 50 soal ${type === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis'} untuk ${currentSection}...`);
+
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulasi waktu loading
+
+            currentQuestions = [...allDummyQuestions[currentSection][type]]; // Muat soal sesuai tipe
+            currentQuestions.sort(() => Math.random() - 0.5); // Acak soal
+
+            hideLoading();
+
+            if (currentQuestions.length === 0) {
+                alert('Tidak ada soal yang tersedia untuk tipe tes ini. Silakan pilih tipe lain.');
+                goToDashboard();
+                return;
+            }
+
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            currentQuestionIndex = 0;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const questionContainerDiv = document.getElementById('questionContainer');
+            if (currentQuestionIndex >= currentQuestions.length) {
+                submitTest(); // Jika sudah soal terakhir, langsung submit
+                return;
+            }
+
+            const q = currentQuestions[currentQuestionIndex];
+            
+            let optionsHtml = '';
+            q.options.forEach((option, index) => {
+                const checked = userAnswers[currentQuestionIndex] === index ? 'checked' : '';
+                optionsHtml += `
+                    <label>
+                        <input type="radio" name="question${currentQuestionIndex}" value="${index}" ${checked} onclick="recordAnswer(${index})">
+                        ${option}
+                    </label>
+                `;
+            });
+
+            // Tampilkan soal dan opsi
+            questionContainerDiv.innerHTML = `
+                <div class="question-container">
+                    <p class="question-text"><strong>Soal ${currentQuestionIndex + 1}/${currentQuestions.length}:</strong> ${q.question}</p>
+                    <div class="options">
+                        ${optionsHtml}
+                    </div>
+                    <div class="feedback" id="feedback-${currentQuestionIndex}"></div>
+                    <div class="explanation" id="explanation-${currentQuestionIndex}">
+                        <p><strong>Pembahasan:</strong> ${q.explanation}</p>
+                        <p>Kompetensi terkait: ${q.competency.map(c => `<b>${c}</b> (${competencyMapping[c]})`).join(', ')}</p>
+                    </div>
+                </div>
+            `;
+
+            // Atur visibilitas tombol navigasi
+            document.getElementById('prevQuestionBtn').style.display = currentQuestionIndex > 0 ? 'inline-block' : 'none';
+            document.getElementById('nextQuestionBtn').style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-block' : 'none';
+            document.getElementById('submitTestBtn').style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-block' : 'none';
+
+            // Jika soal sudah dijawab, tampilkan feedback dan penjelasan
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showFeedbackAndExplanation(userAnswers[currentQuestionIndex], q.answer, currentQuestionIndex);
+            }
+        }
+
+        window.recordAnswer = function(selectedIndex) { // Make global
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            const q = currentQuestions[currentQuestionIndex];
+            showFeedbackAndExplanation(selectedIndex, q.answer, currentQuestionIndex);
+        }
+
+        window.nextQuestion = function() { // Make global
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        window.prevQuestion = function() { // Make global
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        window.submitTest = async function() { // Make global
+            score = 0;
+            let correctCount = 0;
+            let answeredCount = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer !== null) { // Hanya hitung soal yang dijawab
+                    answeredCount++;
+                    if (answer === currentQuestions[index].answer) {
+                        correctCount++;
+                    }
+                }
+            });
+
+            // Hitung skor berdasarkan soal yang dijawab
+            score = (answeredCount > 0) ? (correctCount / answeredCount) * 100 : 0;
+
+            hideAllSections();
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultSectionName').textContent = currentSection;
+            document.getElementById('resultTestType').textContent = currentTestType === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis';
+            document.getElementById('totalQuestionsResult').textContent = currentQuestions.length;
+            document.getElementById('totalAnsweredQuestionsResult').textContent = answeredCount;
+            document.getElementById('correctAnswersResult').textContent = correctCount;
+            document.getElementById('userScore').textContent = score.toFixed(2) + '%';
+
+            // Simpan hasil tes ke Local Storage
+            saveTestResult({
+                section: currentSection,
+                testType: currentTestType,
+                totalQuestions: currentQuestions.length,
+                answeredQuestions: answeredCount,
+                correctAnswers: correctCount,
+                score: parseFloat(score.toFixed(2)),
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // --- Local Storage Functions ---
+        const LOCAL_STORAGE_KEY = 'testHistory';
+
+        function saveTestResult(result) {
+            try {
+                const existingHistory = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+                existingHistory.push(result);
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(existingHistory));
+                console.log("Hasil tes berhasil disimpan di Local Storage!");
+            } catch (error) {
+                console.error("Error saving test result to Local Storage:", error);
+                alert("Gagal menyimpan hasil tes di browser Anda. Pastikan Local Storage diaktifkan.");
+            }
+        }
+
+        window.viewTestHistory = function() { // Make global
+            hideAllSections();
+            document.getElementById('testHistorySection').style.display = 'block';
+            const testHistoryList = document.getElementById('testHistoryList');
+            const noHistoryMessage = document.getElementById('noHistoryMessage');
+            testHistoryList.innerHTML = ''; // Bersihkan daftar sebelumnya
+            noHistoryMessage.style.display = 'none';
+
+            try {
+                const storedHistory = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+
+                if (storedHistory.length === 0) {
+                    noHistoryMessage.textContent = "Anda belum memiliki riwayat tes. Ikuti tes untuk menyimpannya!";
+                    noHistoryMessage.style.display = 'block';
+                } else {
+                    // Urutkan dari yang terbaru
+                    storedHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                    storedHistory.forEach((data) => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'test-history-item';
+                        const date = new Date(data.timestamp).toLocaleString();
+                        listItem.innerHTML = `
+                            <strong>Seksi: ${data.section}</strong><br>
+                            Tipe Tes: ${data.testType === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis'}<br>
+                            Tanggal: ${date}<br>
+                            Jawaban Benar: ${data.correctAnswers} dari ${data.totalQuestions}<br>
+                            Skor: <span class="score">${data.score}%</span>
+                        `;
+                        testHistoryList.appendChild(listItem);
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading test history from Local Storage:", error);
+                noHistoryMessage.textContent = `Gagal memuat riwayat tes dari browser Anda: ${error.message}`;
+                noHistoryMessage.style.display = 'block';
+            }
+        }
+        
+        // Inisialisasi tampilan dashboard saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            goToDashboard();
+        });
+    </script>
+</body>
+</html>
