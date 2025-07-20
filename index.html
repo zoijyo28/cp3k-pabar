@@ -448,9 +448,9 @@
             <!-- Soal akan dimuat secara dinamis di sini -->
         </div>
         <div class="navigation-buttons">
-            <button class="button" id="prevQuestionBtn" onclick="prevQuestion()" style="display: none;">Soal Sebelumnya</button>
+            <button class="button" id="prevQuestionBtn" onclick="prevQuestion()">Soal Sebelumnya</button>
             <button class="button" id="nextQuestionBtn" onclick="nextQuestion()">Soal Berikutnya</button>
-            <button class="button" id="submitTestBtn" onclick="submitTest()" style="display: none;">Selesai Tes</button>
+            <button class="button" id="submitTestBtn" onclick="submitTest()">Selesai Tes</button>
         </div>
         <div class="back-button">
             <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
@@ -780,7 +780,7 @@
 
             showLoading(`Memuat 50 soal ${type === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis'} untuk ${currentSection}...`);
 
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulasi waktu loading
+            // await new Promise(resolve => setTimeout(resolve, 1500)); // Simulasi waktu loading - DIHAPUS
 
             currentQuestions = [...allDummyQuestions[currentSection][type]]; // Muat soal sesuai tipe
             currentQuestions.sort(() => Math.random() - 0.5); // Acak soal
@@ -818,6 +818,15 @@
                 `;
             });
 
+            // Atur visibilitas tombol navigasi
+            const prevBtn = document.getElementById('prevQuestionBtn');
+            const nextBtn = document.getElementById('nextQuestionBtn');
+            const submitBtn = document.getElementById('submitTestBtn');
+
+            prevBtn.style.display = currentQuestionIndex > 0 ? 'inline-block' : 'none';
+            nextBtn.style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-block' : 'none';
+            submitBtn.style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-block' : 'none';
+
             // Tampilkan soal dan opsi
             questionContainerDiv.innerHTML = `
                 <div class="question-container">
@@ -833,11 +842,6 @@
                 </div>
             `;
 
-            // Atur visibilitas tombol navigasi
-            document.getElementById('prevQuestionBtn').style.display = currentQuestionIndex > 0 ? 'inline-block' : 'none';
-            document.getElementById('nextQuestionBtn').style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-block' : 'none';
-            document.getElementById('submitTestBtn').style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-block' : 'none';
-
             // Jika soal sudah dijawab, tampilkan feedback dan penjelasan
             if (userAnswers[currentQuestionIndex] !== null) {
                 showFeedbackAndExplanation(userAnswers[currentQuestionIndex], q.answer, currentQuestionIndex);
@@ -848,6 +852,25 @@
             userAnswers[currentQuestionIndex] = selectedIndex;
             const q = currentQuestions[currentQuestionIndex];
             showFeedbackAndExplanation(selectedIndex, q.answer, currentQuestionIndex);
+        }
+
+        function showFeedbackAndExplanation(selectedIndex, correctAnswerIndex, qIndex) {
+            const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+            const explanationDiv = document.getElementById(`explanation-${qIndex}`);
+
+            if (selectedIndex === correctAnswerIndex) {
+                feedbackDiv.textContent = "Jawaban Anda Benar!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.textContent = "Jawaban Anda Salah.";
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = 'block';
+            explanationDiv.style.display = 'block'; // Tampilkan penjelasan
+
+            // Nonaktifkan radio button setelah menjawab untuk soal saat ini
+            const radios = document.querySelectorAll(`#questionContainer input[name="question${qIndex}"]`);
+            radios.forEach(radio => radio.disabled = true);
         }
 
         window.nextQuestion = function() { // Make global
@@ -960,7 +983,7 @@
             goToDashboard();
         });
     </script>
-    <footer class="fixed bottom-0 left-0 w-full bg-gray-700 text-white text-center p-2 text-sm">
+     <footer class="fixed bottom-0 left-0 w-full bg-gray-700 text-white text-center p-2 text-sm">
         Aplikasi ini hanya untuk pembelajaran, tidak menjamin soal keluar saat tes - Pabar Punya -
     </footer>
 </body>
