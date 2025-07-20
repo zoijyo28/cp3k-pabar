@@ -12,8 +12,9 @@
             background-color: #f0f2f5; /* Warna latar belakang lembut */
             color: #333;
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Mengatur konten di bagian atas */
+            flex-direction: column; /* Mengatur konten secara kolom */
+            justify-content: space-between; /* Untuk mendorong footer ke bawah */
+            align-items: center;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
@@ -32,6 +33,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.8s forwards; /* Animasi fade-in */
+            margin-bottom: 20px; /* Tambahkan margin bawah agar tidak menempel footer */
         }
 
         /* Animasi fade-in */
@@ -343,20 +345,68 @@
             font-size: 1.1em;
         }
 
+        /* Gaya Footer */
+        footer {
+            margin-top: auto; /* Mendorong footer ke bagian bawah */
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #777;
+            background-color: #e9ecef;
+            border-top: 1px solid #dee2e6;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 8px; /* Sudut membulat */
+        }
+
         /* Media queries untuk responsif */
+        @media (max-width: 992px) {
+            .container {
+                max-width: 768px;
+                padding: 25px 35px;
+            }
+            .section-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
-            .auth-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            body {
+                padding: 15px;
             }
-            .auth-info {
-                width: 100%;
-                justify-content: center;
+            .container {
+                padding: 20px 25px;
+                border-radius: 8px;
             }
-            .google-signin-button, .logout-button {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.7em; }
+            h3 { font-size: 1.4em; }
+            .section-grid {
+                grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+                gap: 20px;
+            }
+            .section-card {
+                padding: 20px;
+            }
+            .button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+            .question-container {
+                padding: 20px;
+            }
+            .question-text {
+                font-size: 1.1em;
+            }
+            .options label {
+                padding: 15px 20px;
+            }
+            .navigation-buttons {
+                flex-direction: column; /* Tombol vertikal di layar kecil */
+                gap: 10px;
+            }
+            .navigation-buttons .button {
                 width: 100%;
-                justify-content: center;
             }
         }
     </style>
@@ -380,43 +430,43 @@
         </div>
 
         <h1>Tes Kompetensi Manajerial dan Sosial Kultural</h1>
-        <p style="text-align: center; font-size: 1.1em; color: #555;">Selamat datang, Kawan! Pilih seksi penempatan untuk memulai tes asesmen Anda di Kementerian ATR/BPN.</p>
+        <p style="text-align: center; font-size: 1.1em; color: #555;">Selamat datang, Ari! Pilih seksi penempatan untuk memulai tes asesmen Anda di Kementerian ATR/BPN.</p>
         <p style="text-align: center; font-size: 0.9em; color: #777;">Tes ini mengacu pada PermenPAN-RB No. 38 Tahun 2017.</p>
 
         <div class="section-grid">
             <div class="section-card" data-section="Seksi Survei dan Pemetaan">
                 <h3>Seksi Survei dan Pemetaan</h3>
                 <p>Menguji kompetensi terkait pengukuran, pemetaan, dan analisis data spasial menggunakan alat seperti GNSS dan drone.</p>
-                <button class="button" onclick="startTest('Seksi Survei dan Pemetaan')">Mulai Tes</button>
+                <button class="button" id="btnSurveiPemetaan">Mulai Tes</button>
             </div>
             <div class="section-card" data-section="Seksi Penetapan Hak dan Pendaftaran">
                 <h3>Seksi Penetapan Hak dan Pendaftaran</h3>
                 <p>Menguji pemahaman tentang prosedur pendaftaran hak tanah, legalitas, dan administrasi pertanahan.</p>
-                <button class="button" onclick="startTest('Seksi Penetapan Hak dan Pendaftaran')">Mulai Tes</button>
+                <button class="button" id="btnPenetapanHak">Mulai Tes</button>
             </div>
             <div class="section-card" data-section="Seksi Penataan dan Pemberdayaan">
                 <h3>Seksi Penataan dan Pemberdayaan</h3>
                 <p>Menguji kompetensi dalam penataan ruang, pemberdayaan masyarakat, dan pengembangan wilayah.</p>
-                <button class="button" onclick="startTest('Seksi Penataan dan Pemberdayaan')">Mulai Tes</button>
+                <button class="button" id="btnPenataanPemberdayaan">Mulai Tes</button>
             </div>
             <div class="section-card" data-section="Seksi Pengadaan Tanah dan Pengembangan">
                 <h3>Seksi Pengadaan Tanah dan Pengembangan</h3>
                 <p>Menguji kemampuan dalam proses pengadaan tanah untuk pembangunan infrastruktur dan pengembangan kawasan.</p>
-                <button class="button" onclick="startTest('Seksi Pengadaan Tanah dan Pengembangan')">Mulai Tes</button>
+                <button class="button" id="btnPengadaanTanah">Mulai Tes</button>
             </div>
             <div class="section-card" data-section="Seksi Pengendalian dan Penanganan Sengketa">
                 <h3>Seksi Pengendalian dan Penanganan Sengketa</h3>
                 <p>Menguji kompetensi dalam penyelesaian sengketa, konflik pertanahan, dan penegakan hukum agraria.</p>
-                <button class="button" onclick="startTest('Seksi Pengendalian dan Penanganan Sengketa')">Mulai Tes</button>
+                <button class="button" id="btnPengendalianSengketa">Mulai Tes</button>
             </div>
             <div class="section-card" data-section="Tata Usaha">
                 <h3>Tata Usaha</h3>
                 <p>Menguji kompetensi manajerial, administrasi umum perkantoran, dan pengelolaan sumber daya organisasi.</p>
-                <button class="button" onclick="startTest('Tata Usaha')">Mulai Tes</button>
+                <button class="button" id="btnTataUsaha">Mulai Tes</button>
             </div>
         </div>
         <div class="back-button" style="margin-top: 30px;">
-            <button class="button" onclick="viewTestHistory()">Lihat Riwayat Tes</button>
+            <button class="button" id="btnViewHistory">Lihat Riwayat Tes</button>
         </div>
     </div>
 
@@ -425,19 +475,19 @@
         <h2 id="testTypeSelectionTitle"></h2>
         <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Pilih jenis tes yang ingin Anda ikuti untuk seksi ini:</p>
         <div class="section-grid" style="grid-template-columns: 1fr 1fr; max-width: 600px; margin: 0 auto; gap: 30px;">
-            <div class="section-card" onclick="loadQuestionsByType('mansoskul')">
+            <div class="section-card" id="cardMansoskul">
                 <h3>Tes Manajerial & Sosial Kultural</h3>
                 <p>50 Soal</p>
-                <button class="button">Mulai Tes</button>
+                <button class="button" id="btnStartMansoskul">Mulai Tes</button>
             </div>
-            <div class="section-card" onclick="loadQuestionsByType('teknis')">
+            <div class="section-card" id="cardTeknis">
                 <h3>Tes Teknis</h3>
                 <p>50 Soal</p>
-                <button class="button">Mulai Tes</button>
+                <button class="button" id="btnStartTeknis">Mulai Tes</button>
             </div>
         </div>
         <div class="back-button">
-            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+            <button class="button" id="btnBackToDashboardFromTypeSelection">Kembali ke Dashboard</button>
         </div>
     </div>
 
@@ -448,12 +498,12 @@
             <!-- Soal akan dimuat secara dinamis di sini -->
         </div>
         <div class="navigation-buttons">
-            <button class="button" id="prevQuestionBtn" onclick="prevQuestion()">Soal Sebelumnya</button>
-            <button class="button" id="nextQuestionBtn" onclick="nextQuestion()">Soal Berikutnya</button>
-            <button class="button" id="submitTestBtn" onclick="submitTest()">Selesai Tes</button>
+            <button class="button" id="prevQuestionBtn">Soal Sebelumnya</button>
+            <button class="button" id="nextQuestionBtn">Soal Berikutnya</button>
+            <button class="button" id="submitTestBtn">Selesai Tes</button>
         </div>
         <div class="back-button">
-            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+            <button class="button" id="btnBackToDashboardFromQuiz">Kembali ke Dashboard</button>
         </div>
     </div>
 
@@ -468,7 +518,7 @@
             </ul>
         </div>
         <div class="back-button">
-            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+            <button class="button" id="btnBackToDashboardFromHistory">Kembali ke Dashboard</button>
         </div>
     </div>
 
@@ -481,9 +531,13 @@
         <p>Jawaban Benar: <strong id="correctAnswersResult"></strong></p>
         <p>Skor Anda: <strong id="userScore"></strong></p>
         <div class="back-button">
-            <button class="button" onclick="goToDashboard()">Kembali ke Dashboard</button>
+            <button class="button" id="btnBackToDashboardFromResult">Kembali ke Dashboard</button>
         </div>
     </div>
+
+    <footer>
+        Aplikasi ini hanya untuk pembelajaran, tidak menjamin soal keluar saat tes - Pabar Punya -
+    </footer>
 
     <script type="module">
         // Variabel global untuk state aplikasi
@@ -516,219 +570,871 @@
         // Daftar kompetensi untuk dipilih secara acak
         const competencies = Object.keys(competencyMapping);
 
-        // Fungsi untuk menghasilkan soal dummy secara programatis dengan variasi
-        function generateComplexDummyQuestions(sectionName, type) {
-            const questions = [];
-            let competenciesToUse = [];
-            let baseQuestionsToUse = [];
-
-            if (type === 'mansoskul') {
-                // Filter kompetensi mansoskul (bukan teknis)
-                competenciesToUse = competencies.filter(comp => !['Analisis Data Spasial', 'Penggunaan Alat GNSS', 'Regulasi Pertanahan', 'Manajemen Dokumen', 'Perencanaan Tata Ruang'].includes(comp));
-                baseQuestionsToUse = [
-                    // Contoh soal Manajerial & Sosial Kultural
-                    {
-                        question: "Anda menemukan adanya praktik pungutan liar kecil di lingkungan kerja yang sudah berlangsung lama dan dianggap 'biasa'. Apa tindakan paling tepat yang Anda ambil sebagai seorang PPPK?",
-                        options: [
-                            "Mengabaikannya karena itu sudah menjadi kebiasaan dan tidak ingin menimbulkan konflik.",
-                            "Melaporkan langsung ke atasan tertinggi tanpa bukti kuat, berharap ada tindakan segera.",
-                            "Mengumpulkan bukti-bukti yang relevan secara diam-diam dan melaporkannya melalui saluran yang tepat sesuai prosedur yang berlaku.",
-                            "Mencoba menghentikan praktik tersebut secara personal dengan menegur pelaku secara langsung."
-                        ],
-                        answer: 2,
-                        explanation: "Tindakan yang paling tepat adalah menunjukkan **Integritas** dengan mengumpulkan bukti dan melaporkannya melalui saluran resmi. Ini menjaga objektivitas dan memastikan tindakan yang diambil sesuai prosedur, bukan emosional. (Kompetensi: Integritas)",
-                        competency: ["Integritas"]
-                    },
-                    {
-                        question: "Tim Anda sedang mengerjakan proyek penting dengan tenggat waktu ketat. Salah satu anggota tim sering terlambat menyerahkan bagiannya, menghambat kemajuan. Bagaimana Anda menyikapi situasi ini untuk menjaga **Orientasi pada Hasil**?",
-                        options: [
-                            "Mengerjakan bagiannya sendiri agar proyek selesai tepat waktu, tanpa memberitahu anggota tim tersebut.",
-                            "Melaporkan langsung kepada atasan tanpa mencoba berkomunikasi terlebih dahulu dengan anggota tim yang bersangkutan.",
-                            "Mengajak anggota tim tersebut berbicara secara pribadi untuk memahami kendalanya dan menawarkan bantuan atau solusi, sambil tetap memantau progres.",
-                            "Mengeluarkan anggota tim tersebut dari proyek karena dianggap tidak kompeten."
-                        ],
-                        answer: 2,
-                        explanation: "Pendekatan terbaik adalah menunjukkan **Orientasi pada Hasil** dengan tetap menjaga **Kerjasama** dan **Komunikasi**. Mencari tahu akar masalah dan menawarkan solusi adalah cara proaktif untuk memastikan proyek selesai. (Kompetensi: Orientasi pada hasil, Kerjasama, Komunikasi)",
-                        competency: ["Orientasi pada hasil", "Kerjasama", "Komunikasi"]
-                    },
-                    {
-                        question: "Anda ditugaskan untuk memimpin tim yang terdiri dari individu dengan latar belakang budaya dan pendidikan yang sangat beragam. Bagaimana Anda memastikan tim tetap solid dan produktif, mencerminkan **Perekat Bangsa**?",
-                        options: [
-                            "Menetapkan aturan yang sangat ketat untuk menghindari konflik antar anggota tim.",
-                            "Hanya berinteraksi dengan anggota tim yang memiliki latar belakang serupa dengan Anda untuk kemudahan komunikasi.",
-                            "Mendorong diskusi terbuka, menghargai setiap perbedaan pendapat, dan mencari titik temu untuk mencapai tujuan bersama.",
-                            "Mendelegasikan tugas berdasarkan kesamaan latar belakang untuk menghindari gesekan."
-                        ],
-                        answer: 2,
-                        explanation: "Mendorong diskusi terbuka dan menghargai perbedaan adalah kunci untuk menjadi **Perekat Bangsa** dan membangun **Kerjasama** yang efektif dalam tim yang beragam. (Kompetensi: Perekat bangsa, Kerjasama)",
-                        competency: ["Perekat bangsa", "Kerjasama"]
-                    },
-                    {
-                        question: "Kementerian Anda akan menerapkan sistem baru yang mengubah alur kerja secara drastis. Banyak rekan kerja menunjukkan resistensi dan kekhawatiran. Sebagai seorang PPPK, bagaimana Anda menunjukkan kemampuan **Mengelola Perubahan**?",
-                        options: [
-                            "Membiarkan rekan kerja beradaptasi sendiri karena perubahan adalah bagian dari pekerjaan.",
-                            "Menyampaikan kekhawatiran rekan-rekan kepada atasan tanpa menawarkan solusi.",
-                            "Memahami kekhawatiran mereka, memberikan informasi yang jelas tentang manfaat sistem baru, dan membantu mereka beradaptasi melalui pelatihan atau pendampingan.",
-                            "Menuntut rekan kerja untuk segera menerima perubahan tanpa banyak pertanyaan."
-                        ],
-                        answer: 2,
-                        explanation: "Kemampuan **Mengelola Perubahan** melibatkan empati, **Komunikasi** yang efektif, dan inisiatif untuk membantu orang lain beradaptasi. (Kompetensi: Mengelola perubahan, Komunikasi, Pengembangan diri dan orang lain)",
-                        competency: ["Mengelola perubahan", "Komunikasi", "Pengembangan diri dan orang lain"]
-                    },
-                    {
-                        question: "Seorang warga datang ke kantor Anda dengan keluhan yang rumit dan emosional terkait pelayanan yang ia terima. Bagaimana Anda menunjukkan **Pelayanan Publik** yang prima?",
-                        options: [
-                            "Meminta warga tersebut untuk mengisi formulir keluhan dan menunggu prosesnya.",
-                            "Mendengarkan keluhannya dengan sabar, menunjukkan empati, dan menjelaskan langkah-langkah penyelesaian yang mungkin bisa diambil.",
-                            "Menyalahkan bagian lain atas masalah yang terjadi dan meminta warga untuk mengurusnya sendiri.",
-                            "Menginterupsi keluhan warga dan langsung memberikan solusi tanpa mendengarkan detailnya."
-                        ],
-                        answer: 1,
-                        explanation: "Menunjukkan **Pelayanan Publik** yang prima berarti mendengarkan dengan empati, memberikan informasi yang jelas, dan membimbing pemohon melalui proses penyelesaian. (Kompetensi: Pelayanan publik, Komunikasi)",
-                        competency: ["Pelayanan publik", "Komunikasi"]
-                    },
-                    {
-                        question: "Anda diminta untuk mengambil keputusan penting yang berdampak pada banyak pihak, namun informasinya terbatas dan waktu sangat mepet. Bagaimana Anda menunjukkan kemampuan **Pengambilan Keputusan** yang efektif?",
-                        options: [
-                            "Menunda keputusan sampai semua informasi lengkap, meskipun itu berarti melewati tenggat waktu.",
-                            "Mengambil keputusan berdasarkan insting atau pengalaman pribadi tanpa pertimbangan lebih lanjut.",
-                            "Mengidentifikasi informasi krusial yang tersedia, berkonsultasi dengan pihak terkait yang relevan, dan membuat keputusan terbaik berdasarkan data yang ada, sambil siap untuk menyesuaikan jika ada informasi baru.",
-                            "Mendelegasikan keputusan sepenuhnya kepada bawahan untuk menghindari tanggung jawab."
-                        ],
-                        answer: 2,
-                        explanation: "**Pengambilan Keputusan** yang efektif dalam situasi sulit melibatkan analisis informasi yang ada, konsultasi, dan kesiapan untuk beradaptasi. Ini juga menunjukkan **Orientasi pada Hasil**. (Kompetensi: Pengambilan keputusan, Orientasi pada hasil, Komunikasi)",
-                        competency: ["Pengambilan keputusan", "Orientasi pada hasil", "Komunikasi"]
-                    },
-                    {
-                        question: "Anda menyadari bahwa ada kesenjangan pengetahuan yang signifikan di tim Anda mengenai penggunaan perangkat lunak baru yang krusial untuk pekerjaan. Bagaimana Anda menunjukkan **Pengembangan Diri dan Orang Lain**?",
-                        options: [
-                            "Berharap atasan akan mengadakan pelatihan suatu saat nanti.",
-                            "Mempelajari perangkat lunak itu sendiri dan tidak membagikan pengetahuan Anda.",
-                            "Menginisiasi sesi berbagi pengetahuan internal, membuat panduan singkat, atau mengusulkan pelatihan kepada manajemen.",
-                            "Menganggap itu bukan tanggung jawab Anda untuk mengembangkan orang lain."
-                        ],
-                        answer: 2,
-                        explanation: "Menginisiasi sesi berbagi pengetahuan atau mengusulkan pelatihan menunjukkan proaktivitas dalam **Pengembangan Diri dan Orang Lain** serta **Kerjasama**. (Kompetensi: Pengembangan diri dan orang lain, Kerjasama)",
-                        competency: ["Pengembangan diri dan orang lain", "Kerjasama"]
-                    }
-                ];
-            } else if (type === 'teknis') {
-                competenciesToUse = ['Analisis Data Spasial', 'Penggunaan Alat GNSS', 'Regulasi Pertanahan', 'Manajemen Dokumen', 'Perencanaan Tata Ruang'];
-                baseQuestionsToUse = [
-                    // Contoh soal Teknis
-                    {
-                        question: "Dalam survei pertanahan, Anda mendapatkan data GNSS yang menunjukkan deviasi signifikan dari batas bidang yang sudah terdaftar. Apa langkah pertama yang harus Anda lakukan?",
-                        options: [
-                            "Langsung mengoreksi data sesuai batas terdaftar.",
-                            "Melaporkan anomali tersebut dan melakukan verifikasi ulang di lapangan dengan metode yang berbeda.",
-                            "Mengabaikan deviasi jika selisihnya kecil.",
-                            "Menggunakan data lama sebagai acuan utama."
-                        ],
-                        answer: 1,
-                        explanation: "Langkah pertama adalah verifikasi dan pelaporan anomali untuk memastikan akurasi data spasial. Ini menunjukkan kompetensi **Analisis Data Spasial** dan **Integritas**. (Kompetensi: Analisis Data Spasial, Integritas)",
-                        competency: ["Analisis Data Spasial", "Integritas"]
-                    },
-                    {
-                        question: "Anda perlu mengoperasikan perangkat GNSS terbaru yang belum pernah Anda gunakan sebelumnya. Bagaimana Anda memastikan pengoperasian yang benar dan efisien?",
-                        options: [
-                            "Mencoba mengoperasikannya secara trial-and-error di lapangan.",
-                            "Meminta rekan yang lebih senior untuk mengoperasikannya sepenuhnya.",
-                            "Membaca manual pengguna secara cermat, mencari tutorial online, dan melakukan simulasi sebelum penggunaan sebenarnya.",
-                            "Hanya menggunakan fitur dasar yang sudah Anda pahami."
-                        ],
-                        answer: 2,
-                        explanation: "Mempelajari manual dan melakukan simulasi menunjukkan inisiatif dalam **Penggunaan Alat GNSS** dan **Pengembangan Diri**. (Kompetensi: Penggunaan Alat GNSS, Pengembangan diri dan orang lain)",
-                        competency: ["Penggunaan Alat GNSS", "Pengembangan diri dan orang lain"]
-                    },
-                    {
-                        question: "Sebuah kasus sengketa tanah melibatkan interpretasi pasal-pasal dalam Undang-Undang Pokok Agraria (UUPA) yang kompleks. Bagaimana Anda mendekati penyelesaian kasus ini?",
-                        options: [
-                            "Mengambil keputusan berdasarkan pengalaman kasus serupa di masa lalu.",
-                            "Berkonsultasi dengan ahli hukum pertanahan dan merujuk pada putusan pengadilan terkait.",
-                            "Meminta kedua belah pihak untuk mencari solusi sendiri.",
-                            "Menunda penanganan kasus sampai ada kejelasan dari pimpinan."
-                        ],
-                        answer: 1,
-                        explanation: "Menyelesaikan kasus yang melibatkan **Regulasi Pertanahan** yang kompleks memerlukan rujukan pada sumber hukum yang valid dan konsultasi dengan ahli. Ini menunjukkan **Pengambilan Keputusan** yang tepat. (Kompetensi: Regulasi Pertanahan, Pengambilan keputusan)",
-                        competency: ["Regulasi Pertanahan", "Pengambilan keputusan"]
-                    },
-                    {
-                        question: "Anda bertanggung jawab atas pengarsipan ribuan dokumen pertanahan. Bagaimana Anda memastikan dokumen-dokumen tersebut mudah ditemukan dan aman dari kerusakan?",
-                        options: [
-                            "Menyimpan semua dokumen dalam satu folder besar untuk efisiensi.",
-                            "Menggunakan sistem penomoran acak untuk mencegah pencurian.",
-                            "Menerapkan sistem klasifikasi dan penomoran yang sistematis, serta mendigitalkan dokumen penting sebagai cadangan.",
-                            "Meminta staf lain untuk mengelola arsip karena bukan tugas utama Anda."
-                        ],
-                        answer: 2,
-                        explanation: "Menerapkan sistem klasifikasi dan digitasi adalah praktik terbaik dalam **Manajemen Dokumen** untuk memastikan aksesibilitas dan keamanan. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
-                        competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
-                    },
-                    {
-                        question: "Dalam proses penyusunan Rencana Detail Tata Ruang (RDTR) kota, Anda menghadapi perbedaan pendapat yang tajam antara berbagai pemangku kepentingan (pengembang, masyarakat lokal, lingkungan). Bagaimana Anda mengelola situasi ini?",
-                        options: [
-                            "Memihak pada satu kelompok yang paling berpengaruh untuk mempercepat proses.",
-                            "Mengadakan serangkaian forum diskusi partisipatif untuk mencapai konsensus yang adil dan berkelanjutan.",
-                            "Menunda penyusunan RDTR sampai semua pihak setuju secara mutlak.",
-                            "Mengabaikan masukan dari pihak yang dianggap tidak penting."
-                        ],
-                        answer: 1,
-                        explanation: "Mengelola perbedaan pendapat dalam **Perencanaan Tata Ruang** memerlukan **Komunikasi** yang efektif dan **Kerjasama** untuk mencapai konsensus yang inklusif. (Kompetensi: Perencanaan Tata Ruang, Komunikasi, Kerjasama)",
-                        competency: ["Perencanaan Tata Ruang", "Komunikasi", "Kerjasama"]
-                    }
-                ];
+        // Fungsi untuk menduplikasi soal hingga mencapai jumlah target (50)
+        function duplicateQuestions(baseQs) {
+            const duplicated = [];
+            const targetCount = 50;
+            while (duplicated.length < targetCount) {
+                for (const q of baseQs) {
+                    duplicated.push({ ...q }); // Push a copy
+                    if (duplicated.length === targetCount) break;
+                }
             }
-
-            const numQuestionsToGenerate = 50; // Setiap tipe akan memiliki 50 soal
-
-            for (let i = 0; i < numQuestionsToGenerate; i++) {
-                const baseQ = baseQuestionsToUse[i % baseQuestionsToUse.length];
-                const randomCompetency = baseQ.competency[Math.floor(Math.random() * baseQ.competency.length)];
-
-                // Modifikasi soal agar terasa unik setiap kali
-                const modifiedQuestion = baseQ.question.replace("Anda menemukan", `Sebagai PPPK di ${sectionName}, Anda dihadapkan pada situasi di mana Anda menemukan`);
-                const modifiedExplanation = baseQ.explanation.replace("Ini adalah pembahasan", `Untuk soal nomor ${i + 1} (${type}), ini adalah pembahasan`);
-
-                questions.push({
-                    id: `${sectionName}-${type}-${i + 1}`,
-                    question: modifiedQuestion,
-                    options: [...baseQ.options], // Salin opsi
-                    answer: baseQ.answer,
-                    explanation: modifiedExplanation,
-                    competency: [randomCompetency],
-                    type: type // Menandai tipe soal
-                });
-            }
-            return questions;
+            return duplicated;
         }
 
-        // Data soal dummy untuk setiap seksi, dibagi berdasarkan tipe
-        const allDummyQuestions = {
+        // --- Bank Soal Manajerial & Sosial Kultural (Generic) ---
+        const baseMansoskulQuestions = [
+            {
+                question: "Anda menemukan adanya praktik pungutan liar kecil di lingkungan kerja yang sudah berlangsung lama dan dianggap 'biasa'. Apa tindakan paling tepat yang Anda ambil sebagai seorang PPPK?",
+                options: [
+                    "Mengabaikannya karena itu sudah menjadi kebiasaan dan tidak ingin menimbulkan konflik.",
+                    "Melaporkan langsung ke atasan tertinggi tanpa bukti kuat, berharap ada tindakan segera.",
+                    "Mengumpulkan bukti-bukti yang relevan secara diam-diam dan melaporkannya melalui saluran yang tepat sesuai prosedur yang berlaku.",
+                    "Mencoba menghentikan praktik tersebut secara personal dengan menegur pelaku secara langsung."
+                ],
+                answer: 2,
+                explanation: "Tindakan yang paling tepat adalah menunjukkan **Integritas** dengan mengumpulkan bukti dan melaporkannya melalui saluran resmi. Ini menjaga objektivitas dan memastikan tindakan yang diambil sesuai prosedur, bukan emosional. (Kompetensi: Integritas)",
+                competency: ["Integritas"]
+            },
+            {
+                question: "Tim Anda sedang mengerjakan proyek penting dengan tenggat waktu ketat. Salah satu anggota tim sering terlambat menyerahkan bagiannya, menghambat kemajuan. Bagaimana Anda menyikapi situasi ini untuk menjaga **Orientasi pada Hasil**?",
+                options: [
+                    "Mengerjakan bagiannya sendiri agar proyek selesai tepat waktu, tanpa memberitahu anggota tim tersebut.",
+                    "Melaporkan langsung kepada atasan tanpa mencoba berkomunikasi terlebih dahulu dengan anggota tim yang bersangkutan.",
+                    "Mengajak anggota tim tersebut berbicara secara pribadi untuk memahami kendalanya dan menawarkan bantuan atau solusi, sambil tetap memantau progres.",
+                    "Mengeluarkan anggota tim tersebut dari proyek karena dianggap tidak kompeten."
+                ],
+                answer: 2,
+                explanation: "Pendekatan terbaik adalah menunjukkan **Orientasi pada Hasil** dengan tetap menjaga **Kerjasama** dan **Komunikasi**. Mencari tahu akar masalah dan menawarkan solusi adalah cara proaktif untuk memastikan proyek selesai. (Kompetensi: Orientasi pada hasil, Kerjasama, Komunikasi)",
+                competency: ["Orientasi pada hasil", "Kerjasama", "Komunikasi"]
+            },
+            {
+                question: "Anda ditugaskan untuk memimpin tim yang terdiri dari individu dengan latar belakang budaya dan pendidikan yang sangat beragam. Bagaimana Anda memastikan tim tetap solid dan produktif, mencerminkan **Perekat Bangsa**?",
+                options: [
+                    "Menetapkan aturan yang sangat ketat untuk menghindari konflik antar anggota tim.",
+                    "Hanya berinteraksi dengan anggota tim yang memiliki latar belakang serupa dengan Anda untuk kemudahan komunikasi.",
+                    "Mendorong diskusi terbuka, menghargai setiap perbedaan pendapat, dan mencari titik temu untuk mencapai tujuan bersama.",
+                    "Mendelegasikan tugas berdasarkan kesamaan latar belakang untuk menghindari gesekan."
+                ],
+                answer: 2,
+                explanation: "Mendorong diskusi terbuka dan menghargai perbedaan adalah kunci untuk menjadi **Perekat Bangsa** dan membangun **Kerjasama** yang efektif dalam tim yang beragam. (Kompetensi: Perekat bangsa, Kerjasama)",
+                competency: ["Perekat bangsa", "Kerjasama"]
+            },
+            {
+                question: "Kementerian Anda akan menerapkan sistem baru yang mengubah alur kerja secara drastis. Banyak rekan kerja menunjukkan resistensi dan kekhawatiran. Sebagai seorang PPPK, bagaimana Anda menunjukkan kemampuan **Mengelola Perubahan**?",
+                options: [
+                    "Membiarkan rekan kerja beradaptasi sendiri karena perubahan adalah bagian dari pekerjaan.",
+                    "Menyampaikan kekhawatiran rekan-rekan kepada atasan tanpa menawarkan solusi.",
+                    "Memahami kekhawatiran mereka, memberikan informasi yang jelas tentang manfaat sistem baru, dan membantu mereka beradaptasi melalui pelatihan atau pendampingan.",
+                    "Menuntut rekan kerja untuk segera menerima perubahan tanpa banyak pertanyaan."
+                ],
+                answer: 2,
+                explanation: "Kemampuan **Mengelola Perubahan** melibatkan empati, **Komunikasi** yang efektif, dan inisiatif untuk membantu orang lain beradaptasi. (Kompetensi: Mengelola perubahan, Komunikasi, Pengembangan diri dan orang lain)",
+                competency: ["Mengelola perubahan", "Komunikasi", "Pengembangan diri dan orang lain"]
+            },
+            {
+                question: "Seorang warga datang ke kantor Anda dengan keluhan yang rumit dan emosional terkait pelayanan yang ia terima. Bagaimana Anda menunjukkan **Pelayanan Publik** yang prima?",
+                options: [
+                    "Meminta warga tersebut untuk mengisi formulir keluhan dan menunggu prosesnya.",
+                    "Mendengarkan keluhannya dengan sabar, menunjukkan empati, dan menjelaskan langkah-langkah penyelesaian yang mungkin bisa diambil.",
+                    "Menyalahkan bagian lain atas masalah yang terjadi dan meminta warga untuk mengurusnya sendiri.",
+                    "Menginterupsi keluhan warga dan langsung memberikan solusi tanpa mendengarkan detailnya."
+                ],
+                answer: 1,
+                explanation: "Menunjukkan **Pelayanan Publik** yang prima berarti mendengarkan dengan empati, memberikan informasi yang jelas, dan membimbing pemohon melalui proses penyelesaian. (Kompetensi: Pelayanan publik, Komunikasi)",
+                competency: ["Pelayanan publik", "Komunikasi"]
+            },
+            {
+                question: "Anda diminta untuk mengambil keputusan penting yang berdampak pada banyak pihak, namun informasinya terbatas dan waktu sangat mepet. Bagaimana Anda menunjukkan kemampuan **Pengambilan Keputusan** yang efektif?",
+                options: [
+                    "Menunda keputusan sampai semua informasi lengkap, meskipun itu berarti melewati tenggat waktu.",
+                    "Mengambil keputusan berdasarkan insting atau pengalaman pribadi tanpa pertimbangan lebih lanjut.",
+                    "Mengidentifikasi informasi krusial yang tersedia, berkonsultasi dengan pihak terkait yang relevan, dan membuat keputusan terbaik berdasarkan data yang ada, sambil siap untuk menyesuaikan jika ada informasi baru.",
+                    "Mendelegasikan keputusan sepenuhnya kepada bawahan untuk menghindari tanggung jawab."
+                ],
+                answer: 2,
+                explanation: "**Pengambilan Keputusan** yang efektif dalam situasi sulit melibatkan analisis informasi yang ada, konsultasi, dan kesiapan untuk beradaptasi. Ini juga menunjukkan **Orientasi pada Hasil**. (Kompetensi: Pengambilan keputusan, Orientasi pada hasil, Komunikasi)",
+                competency: ["Pengambilan keputusan", "Orientasi pada hasil", "Komunikasi"]
+            },
+            {
+                question: "Anda menyadari bahwa ada kesenjangan pengetahuan yang signifikan di tim Anda mengenai penggunaan perangkat lunak baru yang krusial untuk pekerjaan. Bagaimana Anda menunjukkan **Pengembangan Diri dan Orang Lain**?",
+                options: [
+                    "Berharap atasan akan mengadakan pelatihan suatu saat nanti.",
+                    "Mempelajari perangkat lunak itu sendiri dan tidak membagikan pengetahuan Anda.",
+                    "Menginisiasi sesi berbagi pengetahuan internal, membuat panduan singkat, atau mengusulkan pelatihan kepada manajemen.",
+                    "Menganggap itu bukan tanggung jawab Anda untuk mengembangkan orang lain."
+                ],
+                answer: 2,
+                explanation: "Menginisiasi sesi berbagi pengetahuan atau mengusulkan pelatihan menunjukkan proaktivitas dalam **Pengembangan Diri dan Orang Lain** serta **Kerjasama**. (Kompetensi: Pengembangan diri dan orang lain, Kerjasama)",
+                competency: ["Pengembangan diri dan orang lain", "Kerjasama"]
+            }
+        ];
+
+        // --- Bank Soal Teknis (Spesifik per Seksi) ---
+        const baseTeknisQuestions = {
+            "Seksi Survei dan Pemetaan": [
+                {
+                    question: "Dalam survei pertanahan, Anda mendapatkan data GNSS yang menunjukkan deviasi signifikan dari batas bidang yang sudah terdaftar. Apa langkah pertama yang harus Anda lakukan?",
+                    options: [
+                        "Langsung mengoreksi data sesuai batas terdaftar.",
+                        "Melaporkan anomali tersebut dan melakukan verifikasi ulang di lapangan dengan metode yang berbeda.",
+                        "Mengabaikan deviasi jika selisihnya kecil.",
+                        "Menggunakan data lama sebagai acuan utama."
+                    ],
+                    answer: 1,
+                    explanation: "Langkah pertama adalah verifikasi dan pelaporan anomali untuk memastikan akurasi data spasial. Ini menunjukkan kompetensi **Analisis Data Spasial** dan **Integritas**. (Kompetensi: Analisis Data Spasial, Integritas)",
+                    competency: ["Analisis Data Spasial", "Integritas"]
+                },
+                {
+                    question: "Anda perlu mengoperasikan perangkat GNSS terbaru yang belum pernah Anda gunakan sebelumnya. Bagaimana Anda memastikan pengoperasian yang benar dan efisien?",
+                    options: [
+                        "Mencoba mengoperasikannya secara trial-and-error di lapangan.",
+                        "Meminta rekan yang lebih senior untuk mengoperasikannya sepenuhnya.",
+                        "Membaca manual pengguna secara cermat, mencari tutorial online, dan melakukan simulasi sebelum penggunaan sebenarnya.",
+                        "Hanya menggunakan fitur dasar yang sudah Anda pahami."
+                    ],
+                    answer: 2,
+                    explanation: "Mempelajari manual dan melakukan simulasi menunjukkan inisiatif dalam **Penggunaan Alat GNSS** dan **Pengembangan Diri**. (Kompetensi: Penggunaan Alat GNSS, Pengembangan diri dan orang lain)",
+                    competency: ["Penggunaan Alat GNSS", "Pengembangan diri dan orang lain"]
+                },
+                {
+                    question: "Bagaimana drone dapat dimanfaatkan secara optimal dalam kegiatan survei dan pemetaan pertanahan?",
+                    options: [
+                        "Hanya sebagai alat hiburan.",
+                        "Untuk mengambil foto pemandangan.",
+                        "Untuk akuisisi data udara resolusi tinggi (ortofoto, model 3D) yang mempercepat proses pemetaan dan pemantauan lahan.",
+                        "Sebagai pengganti total survei lapangan tradisional."
+                    ],
+                    answer: 2,
+                    explanation: "Drone sangat efektif untuk akuisisi data udara yang mempercepat dan meningkatkan akurasi pemetaan. (Kompetensi: Penggunaan Alat GNSS, Analisis Data Spasial)",
+                    competency: ["Penggunaan Alat GNSS", "Analisis Data Spasial"]
+                },
+                {
+                    question: "Saat melakukan analisis data spasial, Anda menemukan inkonsistensi antara data peta lama dan hasil survei terbaru. Apa tindakan terbaik?",
+                    options: [
+                        "Mengabaikan data baru dan tetap menggunakan peta lama.",
+                        "Melakukan verifikasi lapangan tambahan dan merekonsiliasi data untuk memastikan akurasi informasi spasial.",
+                        "Memilih salah satu data secara acak.",
+                        "Menyerahkan masalah kepada orang lain."
+                    ],
+                    answer: 1,
+                    explanation: "Inkonsistensi data spasial harus diverifikasi dan direkonsiliasi untuk menjaga integritas informasi. (Kompetensi: Analisis Data Spasial, Pengambilan keputusan)",
+                    competency: ["Analisis Data Spasial", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Apa keuntungan utama menggunakan Sistem Informasi Geografis (SIG) dalam manajemen pertanahan?",
+                    options: [
+                        "Hanya untuk membuat peta yang indah.",
+                        "Memudahkan penyimpanan data teks saja.",
+                        "Mengintegrasikan data spasial dan atribut, memungkinkan analisis kompleks, visualisasi, dan pengambilan keputusan berbasis lokasi yang lebih baik.",
+                        "Hanya digunakan oleh ahli geografi."
+                    ],
+                    answer: 2,
+                    explanation: "SIG adalah alat powerful untuk integrasi, analisis, dan visualisasi data spasial dalam manajemen pertanahan. (Kompetensi: Analisis Data Spasial, Orientasi pada hasil)",
+                    competency: ["Analisis Data Spasial", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan akurasi titik kontrol tanah (Ground Control Points/GCP) saat menggunakan drone untuk pemetaan?",
+                    options: [
+                        "Menempatkan GCP secara acak di lapangan.",
+                        "Menggunakan perangkat GNSS RTK/PPK untuk mengukur koordinat GCP dengan presisi tinggi.",
+                        "Mengambil koordinat dari Google Maps.",
+                        "Tidak menggunakan GCP sama sekali."
+                    ],
+                    answer: 1,
+                    explanation: "Pengukuran GCP dengan GNSS presisi tinggi sangat penting untuk akurasi georeferensi data drone. (Kompetensi: Penggunaan Alat GNSS, Analisis Data Spasial)",
+                    competency: ["Penggunaan Alat GNSS", "Analisis Data Spasial"]
+                },
+                {
+                    question: "Dalam proses pengukuran bidang tanah, apa yang harus dilakukan jika ditemukan perbedaan luas antara data di sertifikat dan hasil pengukuran lapangan?",
+                    options: [
+                        "Langsung mengubah data sertifikat.",
+                        "Melakukan investigasi lebih lanjut, memverifikasi batas di lapangan, dan jika perlu, mengajukan permohonan koreksi atau perubahan data sesuai prosedur.",
+                        "Mengabaikan perbedaan tersebut.",
+                        "Memutuskan sendiri mana data yang benar."
+                    ],
+                    answer: 1,
+                    explanation: "Perbedaan luas memerlukan investigasi dan prosedur koreksi yang sesuai untuk menjaga keabsahan data pertanahan. (Kompetensi: Regulasi Pertanahan, Pengambilan keputusan)",
+                    competency: ["Regulasi Pertanahan", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Apa peran penting metadata dalam pengelolaan data spasial hasil survei?",
+                    options: [
+                        "Hanya sebagai informasi tambahan yang tidak penting.",
+                        "Untuk mempercantik tampilan data.",
+                        "Menyediakan informasi tentang asal-usul data, kualitas, format, dan cara penggunaan, memastikan data dapat ditemukan dan dipahami dengan baik.",
+                        "Hanya relevan untuk data non-spasial."
+                    ],
+                    answer: 2,
+                    explanation: "Metadata krusial untuk manajemen data spasial yang efektif, memastikan interoperabilitas dan keberlanjutan data. (Kompetensi: Manajemen Dokumen, Komunikasi)",
+                    competency: ["Manajemen Dokumen", "Komunikasi"]
+                },
+                {
+                    question: "Bagaimana Anda mengintegrasikan data survei lapangan (misalnya, batas bidang) dengan data citra satelit atau ortofoto yang sudah ada?",
+                    options: [
+                        "Melakukan overlay secara manual tanpa kalibrasi.",
+                        "Menggunakan perangkat lunak SIG untuk georeferensi dan registrasi data secara presisi, memastikan keselarasan spasial.",
+                        "Mencetak kedua data dan membandingkannya secara visual.",
+                        "Tidak perlu diintegrasikan."
+                    ],
+                    answer: 1,
+                    explanation: "Integrasi data spasial memerlukan georeferensi dan registrasi yang presisi menggunakan perangkat lunak SIG. (Kompetensi: Analisis Data Spasial, Penggunaan Alat GNSS)",
+                    competency: ["Analisis Data Spasial", "Penggunaan Alat GNSS"]
+                },
+                {
+                    question: "Apa tantangan utama dalam pemetaan daerah terpencil menggunakan metode survei tradisional, dan bagaimana teknologi modern (misal drone) dapat mengatasinya?",
+                    options: [
+                        "Tidak ada tantangan, semua daerah mudah dijangkau.",
+                        "Tantangan aksesibilitas dan waktu; drone dapat menjangkau area sulit dan mengumpulkan data lebih cepat.",
+                        "Tantangan biaya yang lebih tinggi dengan drone.",
+                        "Drone tidak cocok untuk daerah terpencil."
+                    ],
+                    answer: 1,
+                    explanation: "Drone mengatasi tantangan aksesibilitas dan efisiensi waktu di daerah terpencil. (Kompetensi: Mengelola perubahan, Orientasi pada hasil)",
+                    competency: ["Mengelola perubahan", "Orientasi pada hasil"]
+                }
+            ],
+            "Seksi Penetapan Hak dan Pendaftaran": [
+                {
+                    question: "Seorang warga ingin mendaftarkan tanah warisan yang belum bersertifikat. Dokumen apa yang paling krusial untuk memulai proses pendaftaran hak?",
+                    options: [
+                        "Surat keterangan domisili.",
+                        "Akta Jual Beli lama.",
+                        "Surat Keterangan Waris atau Akta Pembagian Harta Warisan.",
+                        "Kartu Keluarga."
+                    ],
+                    answer: 2,
+                    explanation: "Untuk pendaftaran tanah warisan, Surat Keterangan Waris atau Akta Pembagian Harta Warisan adalah dokumen fundamental untuk membuktikan hak kepemilikan. (Kompetensi: Regulasi Pertanahan, Manajemen Dokumen)",
+                    competency: ["Regulasi Pertanahan", "Manajemen Dokumen"]
+                },
+                {
+                    question: "Apa fungsi utama dari sertifikat hak atas tanah?",
+                    options: [
+                        "Sebagai hiasan dinding.",
+                        "Sebagai bukti kepemilikan yang sah dan kuat atas suatu bidang tanah.",
+                        "Hanya sebagai dokumen administratif.",
+                        "Untuk tujuan pajak saja."
+                    ],
+                    answer: 1,
+                    explanation: "Sertifikat hak atas tanah adalah bukti kepemilikan yang sah dan memiliki kekuatan hukum. (Kompetensi: Regulasi Pertanahan, Pelayanan publik)",
+                    competency: ["Regulasi Pertanahan", "Pelayanan publik"]
+                },
+                {
+                    question: "Dalam proses pendaftaran tanah pertama kali, apa yang dimaksud dengan 'pengumuman data fisik dan data yuridis'?",
+                    options: [
+                        "Pemberitahuan kepada tetangga saja.",
+                        "Proses publikasi data tanah yang akan didaftarkan untuk memberi kesempatan pihak lain mengajukan keberatan.",
+                        "Pengumuman harga tanah di pasaran.",
+                        "Pengumuman hasil pengukuran tanah."
+                    ],
+                    answer: 1,
+                    explanation: "Pengumuman data fisik dan yuridis adalah tahap krusial untuk memastikan tidak ada sengketa atau keberatan dari pihak lain sebelum sertifikat diterbitkan. (Kompetensi: Pelayanan publik, Regulasi Pertanahan)",
+                    competency: ["Pelayanan publik", "Regulasi Pertanahan"]
+                },
+                {
+                    question: "Seorang pemohon mengajukan permohonan pendaftaran hak yang tidak lengkap. Apa tindakan Anda sebagai petugas pelayanan?",
+                    options: [
+                        "Menolak permohonan secara langsung.",
+                        "Memberikan informasi jelas mengenai kekurangan dokumen dan prosedur untuk melengkapinya.",
+                        "Menerima permohonan meskipun tidak lengkap.",
+                        "Meminta pemohon untuk kembali lagi nanti tanpa penjelasan."
+                    ],
+                    answer: 1,
+                    explanation: "Memberikan informasi yang jelas dan membantu pemohon melengkapi persyaratan adalah bagian dari pelayanan publik yang baik. (Kompetensi: Pelayanan publik, Komunikasi)",
+                    competency: ["Pelayanan publik", "Komunikasi"]
+                },
+                {
+                    question: "Apa perbedaan mendasar antara hak guna bangunan (HGB) dan hak milik (HM)?",
+                    options: [
+                        "Tidak ada perbedaan signifikan.",
+                        "HGB memiliki jangka waktu tertentu, sedangkan HM adalah hak terkuat dan terpenuh tanpa batas waktu.",
+                        "HGB hanya untuk perorangan, HM untuk badan hukum.",
+                        "HM bisa diperjualbelikan, HGB tidak."
+                    ],
+                    answer: 1,
+                    explanation: "Memahami perbedaan jenis hak atas tanah adalah fundamental dalam pendaftaran hak. (Kompetensi: Regulasi Pertanahan, Pengembangan diri dan orang lain)",
+                    competency: ["Regulasi Pertanahan", "Pengembangan diri dan orang lain"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan integritas dan keamanan dokumen pertanahan yang disimpan di kantor?",
+                    options: [
+                        "Menyimpan di tempat terbuka.",
+                        "Menggunakan sistem pengarsipan digital dan fisik yang terproteksi serta prosedur akses yang ketat.",
+                        "Membakar dokumen lama untuk menghemat ruang.",
+                        "Mengandalkan ingatan untuk menemukan dokumen."
+                    ],
+                    answer: 1,
+                    explanation: "Keamanan dokumen adalah prioritas utama untuk mencegah kehilangan atau penyalahgunaan. (Kompetensi: Manajemen Dokumen, Integritas)",
+                    competency: ["Manajemen Dokumen", "Integritas"]
+                },
+                {
+                    question: "Seorang notaris mengirimkan berkas pendaftaran hak yang memerlukan verifikasi cepat. Bagaimana Anda memprioritaskan tugas ini?",
+                    options: [
+                        "Menunda pekerjaan lain untuk memproses berkas tersebut.",
+                        "Memproses sesuai antrean tanpa memandang urgensi.",
+                        "Mengevaluasi urgensi dan dampak, lalu mengkoordinasikan dengan tim untuk memprosesnya secepat mungkin tanpa mengabaikan tugas penting lainnya.",
+                        "Mengirim kembali berkas tanpa alasan jelas."
+                    ],
+                    answer: 2,
+                    explanation: "Prioritas tugas berdasarkan urgensi dan dampak adalah kunci manajemen waktu yang efektif. (Kompetensi: Orientasi pada hasil, Pengambilan keputusan)",
+                    competency: ["Orientasi pada hasil", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Apa langkah yang harus diambil jika ada indikasi pemalsuan dokumen dalam permohonan pendaftaran hak?",
+                    options: [
+                        "Menerima dokumen tersebut karena tidak ingin memperlambat proses.",
+                        "Melaporkan temuan kepada atasan dan pihak berwenang untuk investigasi lebih lanjut sesuai prosedur hukum.",
+                        "Mencoba menyelesaikan masalah sendiri.",
+                        "Mengabaikan indikasi pemalsuan."
+                    ],
+                    answer: 1,
+                    explanation: "Pemalsuan dokumen adalah tindak pidana yang harus ditangani sesuai prosedur hukum dan integritas. (Kompetensi: Integritas, Regulasi Pertanahan)",
+                    competency: ["Integritas", "Regulasi Pertanahan"]
+                },
+                {
+                    question: "Bagaimana teknologi informasi (misalnya, sistem KKP) membantu dalam proses pendaftaran hak dan pendaftaran tanah?",
+                    options: [
+                        "Hanya untuk mencetak sertifikat.",
+                        "Mempercepat proses, mengurangi kesalahan manual, dan meningkatkan transparansi data pertanahan.",
+                        "Menambah birokrasi.",
+                        "Tidak ada manfaat signifikan."
+                    ],
+                    answer: 1,
+                    explanation: "Sistem KKP (Komputerisasi Kantor Pertanahan) adalah contoh bagaimana TI meningkatkan efisiensi dan transparansi. (Kompetensi: Mengelola perubahan, Orientasi pada hasil)",
+                    competency: ["Mengelola perubahan", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda menjelaskan prosedur pendaftaran hak yang rumit kepada warga yang kurang memahami istilah hukum?",
+                    options: [
+                        "Menggunakan istilah hukum yang rumit agar terlihat profesional.",
+                        "Menjelaskan dengan bahasa yang sederhana, memberikan contoh konkret, dan sabar menjawab pertanyaan.",
+                        "Meminta warga untuk membaca sendiri peraturan yang berlaku.",
+                        "Menganggap warga harus sudah tahu."
+                    ],
+                    answer: 1,
+                    explanation: "Komunikasi yang efektif sangat penting dalam pelayanan publik, terutama untuk menjelaskan hal-hal yang kompleks. (Kompetensi: Komunikasi, Pelayanan publik)",
+                    competency: ["Komunikasi", "Pelayanan publik"]
+                }
+            ],
+            "Seksi Penataan dan Pemberdayaan": [
+                {
+                    question: "Dalam penataan ruang, apa tujuan utama dari Rencana Tata Ruang Wilayah (RTRW)?",
+                    options: [
+                        "Hanya untuk menentukan lokasi pembangunan gedung-gedung tinggi.",
+                        "Mengatur pemanfaatan ruang untuk mencapai pembangunan berkelanjutan dan keseimbangan antara kepentingan ekonomi, sosial, dan lingkungan.",
+                        "Sebagai dokumen yang hanya bersifat rekomendasi.",
+                        "Untuk membatasi hak masyarakat atas tanah."
+                    ],
+                    answer: 1,
+                    explanation: "RTRW adalah instrumen kunci untuk perencanaan pembangunan yang terintegrasi dan berkelanjutan. (Kompetensi: Perencanaan Tata Ruang, Orientasi pada hasil)",
+                    competency: ["Perencanaan Tata Ruang", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana pendekatan partisipatif diterapkan dalam proses penyusunan rencana tata ruang?",
+                    options: [
+                        "Membuat rencana secara sepihak dan mengumumkannya.",
+                        "Melibatkan berbagai pemangku kepentingan (masyarakat, swasta, pemerintah) dalam setiap tahapan perencanaan untuk mencapai konsensus dan legitimasi.",
+                        "Hanya melibatkan ahli teknis.",
+                        "Mengabaikan masukan dari masyarakat."
+                    ],
+                    answer: 1,
+                    explanation: "Partisipasi publik sangat penting untuk memastikan rencana tata ruang akomodatif dan diterima oleh masyarakat. (Kompetensi: Kerjasama, Komunikasi)",
+                    competency: ["Kerjasama", "Komunikasi"]
+                },
+                {
+                    question: "Apa peran pemberdayaan masyarakat dalam konteks penataan dan penguasaan tanah?",
+                    options: [
+                        "Membagikan tanah secara gratis.",
+                        "Meningkatkan kapasitas masyarakat dalam mengelola sumber daya tanahnya secara mandiri dan berkelanjutan.",
+                        "Membuat masyarakat bergantung pada bantuan pemerintah.",
+                        "Tidak ada peran signifikan."
+                    ],
+                    answer: 1,
+                    explanation: "Pemberdayaan bertujuan untuk meningkatkan kemandirian dan kesejahteraan masyarakat terkait pengelolaan tanah. (Kompetensi: Pelayanan publik, Pengembangan diri dan orang lain)",
+                    competency: ["Pelayanan publik", "Pengembangan diri dan orang lain"]
+                },
+                {
+                    question: "Anda menghadapi resistensi dari masyarakat terhadap rencana penataan ruang yang berdampak pada lahan mereka. Bagaimana Anda mengelola situasi ini?",
+                    options: [
+                        "Memaksakan rencana tersebut.",
+                        "Melakukan dialog terbuka, mendengarkan aspirasi, mencari solusi kompromi, dan menjelaskan manfaat jangka panjang dari rencana tersebut.",
+                        "Mengabaikan resistensi masyarakat.",
+                        "Menunda rencana tanpa batas waktu."
+                    ],
+                    answer: 1,
+                    explanation: "Mengelola perubahan dan konflik memerlukan komunikasi yang efektif dan kemampuan negosiasi. (Kompetensi: Mengelola perubahan, Komunikasi, Perekat bangsa)",
+                    competency: ["Mengelola perubahan", "Komunikasi", "Perekat bangsa"]
+                },
+                {
+                    question: "Bagaimana Anda mengidentifikasi potensi konflik agraria di suatu wilayah sebelum menyusun rencana penataan ruang?",
+                    options: [
+                        "Tidak melakukan identifikasi, menunggu konflik terjadi.",
+                        "Melakukan studi sosial, pemetaan partisipatif, dan analisis data historis sengketa untuk mengidentifikasi area rawan konflik.",
+                        "Hanya mengandalkan laporan dari satu pihak.",
+                        "Menganggap semua wilayah bebas konflik."
+                    ],
+                    answer: 1,
+                    explanation: "Identifikasi dini potensi konflik agraria sangat penting untuk perencanaan yang efektif dan mencegah masalah di kemudian hari. (Kompetensi: Analisis Data Spasial, Pengambilan keputusan)",
+                    competency: ["Analisis Data Spasial", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Apa yang dimaksud dengan 'konsolidasi tanah' dalam konteks penataan dan pemberdayaan?",
+                    options: [
+                        "Pembelian tanah oleh pemerintah.",
+                        "Penataan kembali penguasaan dan penggunaan tanah melalui partisipasi masyarakat untuk mencapai efisiensi dan keadilan.",
+                        "Penggabungan beberapa bidang tanah menjadi satu.",
+                        "Pemisahan bidang tanah menjadi beberapa bagian."
+                    ],
+                    answer: 1,
+                    explanation: "Konsolidasi tanah adalah instrumen penting untuk penataan ulang struktur penguasaan tanah. (Kompetensi: Perencanaan Tata Ruang, Kerjasama)",
+                    competency: ["Perencanaan Tata Ruang", "Kerjasama"]
+                },
+                {
+                    question: "Bagaimana Anda mengukur keberhasilan program pemberdayaan masyarakat di bidang pertanahan?",
+                    options: [
+                        "Hanya dari jumlah peserta yang hadir.",
+                        "Dari peningkatan kapasitas masyarakat, kemandirian ekonomi, dan berkurangnya sengketa terkait tanah.",
+                        "Dari seberapa banyak dana yang dihabiskan.",
+                        "Tidak perlu diukur."
+                    ],
+                    answer: 1,
+                    explanation: "Keberhasilan program diukur dari dampak nyata pada masyarakat dan tujuan yang ingin dicapai. (Kompetensi: Orientasi pada hasil, Pengembangan diri dan orang lain)",
+                    competency: ["Orientasi pada hasil", "Pengembangan diri dan orang lain"]
+                },
+                {
+                    question: "Dalam pengembangan wilayah, bagaimana Anda memastikan bahwa pembangunan infrastruktur tidak merugikan masyarakat adat atau lingkungan?",
+                    options: [
+                        "Membangun tanpa memperhatikan dampak.",
+                        "Melakukan kajian dampak lingkungan dan sosial (AMDAL/UKL-UPL) serta melibatkan masyarakat adat dalam proses pengambilan keputusan.",
+                        "Hanya fokus pada aspek ekonomi pembangunan.",
+                        "Menganggap itu bukan tanggung jawab Anda."
+                    ],
+                    answer: 1,
+                    explanation: "Pembangunan berkelanjutan mempertimbangkan dampak sosial dan lingkungan serta melibatkan semua pihak terkait. (Kompetensi: Integritas, Perekat bangsa)",
+                    competency: ["Integritas", "Perekat bangsa"]
+                },
+                {
+                    question: "Apa tantangan utama dalam implementasi rencana tata ruang di daerah perkotaan yang padat penduduk?",
+                    options: [
+                        "Tidak ada tantangan.",
+                        "Keterbatasan lahan, kepadatan penduduk, konflik kepentingan, dan kebutuhan akan penanganan limbah yang kompleks.",
+                        "Terlalu banyak lahan kosong.",
+                        "Masyarakat selalu setuju dengan rencana."
+                    ],
+                    answer: 1,
+                    explanation: "Implementasi rencana tata ruang di perkotaan memiliki tantangan kompleks yang memerlukan strategi terintegrasi. (Kompetensi: Mengelola perubahan, Pengambilan keputusan)",
+                    competency: ["Mengelola perubahan", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Bagaimana Anda mempromosikan kesadaran masyarakat tentang pentingnya penataan ruang dan sertifikasi tanah?",
+                    options: [
+                        "Tidak melakukan promosi.",
+                        "Melalui sosialisasi, edukasi, dan program pendampingan yang mudah diakses dan dipahami oleh masyarakat.",
+                        "Hanya melalui media sosial.",
+                        "Mengandalkan media massa saja."
+                    ],
+                    answer: 1,
+                    explanation: "Edukasi dan sosialisasi adalah kunci untuk meningkatkan kesadaran masyarakat. (Kompetensi: Komunikasi, Pelayanan publik)",
+                    competency: ["Komunikasi", "Pelayanan publik"]
+                }
+            ],
+            "Seksi Pengadaan Tanah dan Pengembangan": [
+                {
+                    question: "Apa tujuan utama dari pengadaan tanah untuk kepentingan umum?",
+                    options: [
+                        "Untuk memperkaya pihak tertentu.",
+                        "Menyediakan tanah bagi pembangunan infrastruktur publik (jalan, bendungan, dll.) yang bermanfaat bagi masyarakat luas.",
+                        "Mengambil alih tanah milik warga secara paksa.",
+                        "Hanya untuk proyek swasta."
+                    ],
+                    answer: 1,
+                    explanation: "Pengadaan tanah untuk kepentingan umum diatur oleh undang-undang untuk mendukung pembangunan nasional. (Kompetensi: Regulasi Pertanahan, Orientasi pada hasil)",
+                    competency: ["Regulasi Pertanahan", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana prinsip 'musyawarah' diterapkan dalam proses pengadaan tanah?",
+                    options: [
+                        "Pemerintah memutuskan sendiri tanpa diskusi.",
+                        "Proses negosiasi dan kesepakatan antara pihak yang memerlukan tanah dan pemilik tanah untuk mencapai kesepakatan yang adil.",
+                        "Hanya melibatkan pihak ketiga.",
+                        "Tidak perlu musyawarah."
+                    ],
+                    answer: 1,
+                    explanation: "Musyawarah adalah prinsip fundamental dalam pengadaan tanah untuk mencapai keadilan. (Kompetensi: Kerjasama, Komunikasi)",
+                    competency: ["Kerjasama", "Komunikasi"]
+                },
+                {
+                    question: "Apa peran Penilai Publik dalam proses pengadaan tanah?",
+                    options: [
+                        "Menentukan harga tanah sesuka hati.",
+                        "Melakukan penilaian wajar atas nilai ganti kerugian tanah dan aset di atasnya secara independen dan profesional.",
+                        "Sebagai mediator sengketa.",
+                        "Hanya sebagai saksi."
+                    ],
+                    answer: 1,
+                    explanation: "Penilai Publik memastikan nilai ganti kerugian yang adil dan transparan. (Kompetensi: Integritas, Pengambilan keputusan)",
+                    competency: ["Integritas", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Bagaimana Anda menangani keberatan dari pemilik tanah terhadap nilai ganti kerugian yang ditawarkan?",
+                    options: [
+                        "Mengabaikan keberatan tersebut.",
+                        "Memberikan penjelasan rinci tentang dasar penilaian, membuka ruang diskusi, dan jika perlu, memfasilitasi proses keberatan sesuai prosedur hukum.",
+                        "Memaksa pemilik tanah untuk menerima tawaran.",
+                        "Menunda proses tanpa alasan."
+                    ],
+                    answer: 1,
+                    explanation: "Penanganan keberatan yang transparan dan sesuai prosedur adalah kunci untuk menjaga keadilan. (Kompetensi: Pelayanan publik, Komunikasi)",
+                    competency: ["Pelayanan publik", "Komunikasi"]
+                },
+                {
+                    question: "Apa yang dimaksud dengan 'tanah terlantar' dan bagaimana kaitannya dengan pengembangan wilayah?",
+                    options: [
+                        "Tanah yang tidak memiliki pemilik.",
+                        "Tanah hak yang tidak diusahakan atau dimanfaatkan sesuai keadaannya, dan dapat diambil alih negara untuk kepentingan umum atau pengembangan.",
+                        "Tanah yang subur.",
+                        "Tanah yang tidak bisa dibangun."
+                    ],
+                    answer: 1,
+                    explanation: "Tanah terlantar dapat dimanfaatkan kembali untuk pembangunan dan pengembangan wilayah. (Kompetensi: Regulasi Pertanahan, Orientasi pada hasil)",
+                    competency: ["Regulasi Pertanahan", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan proses pengadaan tanah berjalan transparan dan akuntabel?",
+                    options: [
+                        "Melakukan proses secara tertutup.",
+                        "Melibatkan pengawas independen, mempublikasikan informasi yang relevan, dan mematuhi semua regulasi yang berlaku.",
+                        "Hanya melibatkan pihak pemerintah.",
+                        "Tidak perlu transparan."
+                    ],
+                    answer: 1,
+                    explanation: "Transparansi dan akuntabilitas adalah prinsip penting dalam pengadaan tanah untuk mencegah korupsi. (Kompetensi: Integritas, Pelayanan publik)",
+                    competency: ["Integritas", "Pelayanan publik"]
+                },
+                {
+                    question: "Apa tantangan terbesar dalam pengadaan tanah untuk proyek infrastruktur berskala besar?",
+                    options: [
+                        "Tidak ada tantangan.",
+                        "Kompleksitas kepemilikan, sengketa, penolakan warga, dan ketersediaan dana yang besar.",
+                        "Terlalu mudah mendapatkan tanah.",
+                        "Semua warga setuju."
+                    ],
+                    answer: 1,
+                    explanation: "Pengadaan tanah skala besar seringkali menghadapi tantangan kompleks yang memerlukan strategi mitigasi. (Kompetensi: Mengelola perubahan, Pengambilan keputusan)",
+                    competency: ["Mengelola perubahan", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Bagaimana Anda mengelola data dan dokumen terkait pengadaan tanah agar mudah diakses dan diverifikasi?",
+                    options: [
+                        "Menyimpan di tumpukan kertas.",
+                        "Menggunakan sistem manajemen dokumen elektronik yang terintegrasi dan terindeks dengan baik.",
+                        "Hanya mencatat di buku besar.",
+                        "Mengandalkan memori."
+                    ],
+                    answer: 1,
+                    explanation: "Sistem manajemen dokumen yang baik sangat penting untuk efisiensi dan auditabilitas. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
+                    competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Apa pentingnya sosialisasi dan konsultasi publik dalam tahapan awal pengadaan tanah?",
+                    options: [
+                        "Tidak penting, hanya membuang waktu.",
+                        "Membangun pemahaman, menerima masukan, dan mengurangi potensi konflik di kemudian hari.",
+                        "Hanya untuk formalitas.",
+                        "Untuk menakut-nakuti warga."
+                    ],
+                    answer: 1,
+                    explanation: "Sosialisasi dan konsultasi publik adalah kunci untuk proses pengadaan tanah yang lancar dan diterima. (Kompetensi: Komunikasi, Kerjasama)",
+                    competency: ["Komunikasi", "Kerjasama"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan bahwa hak-hak masyarakat yang terkena dampak pengadaan tanah terpenuhi secara adil?",
+                    options: [
+                        "Hanya memberikan ganti rugi uang.",
+                        "Memastikan ganti kerugian yang wajar dan adil, serta menyediakan opsi relokasi atau program pemberdayaan jika diperlukan.",
+                        "Mengabaikan dampak sosial.",
+                        "Memaksa mereka pindah."
+                    ],
+                    answer: 1,
+                    explanation: "Pemenuhan hak masyarakat yang terdampak adalah prinsip keadilan dalam pengadaan tanah. (Kompetensi: Perekat bangsa, Pelayanan publik)",
+                    competency: ["Perekat bangsa", "Pelayanan publik"]
+                }
+            ],
+            "Seksi Pengendalian dan Penanganan Sengketa": [
+                {
+                    question: "Apa langkah pertama yang harus dilakukan saat menerima laporan sengketa pertanahan?",
+                    options: [
+                        "Langsung memutuskan siapa yang benar.",
+                        "Melakukan verifikasi awal, mengumpulkan data dan informasi dari semua pihak terkait, serta mencatat kronologi sengketa.",
+                        "Menolak laporan jika terlihat rumit.",
+                        "Meminta pihak yang melapor untuk menyelesaikan sendiri."
+                    ],
+                    answer: 1,
+                    explanation: "Verifikasi awal dan pengumpulan data adalah langkah krusial untuk memahami akar masalah sengketa. (Kompetensi: Pengambilan keputusan, Integritas)",
+                    competency: ["Pengambilan keputusan", "Integritas"]
+                },
+                {
+                    question: "Bagaimana Anda memfasilitasi mediasi antara pihak-pihak yang bersengketa untuk mencapai penyelesaian damai?",
+                    options: [
+                        "Memihak salah satu pihak.",
+                        "Menciptakan ruang dialog yang netral, mendengarkan semua argumen, dan membimbing pihak-pihak untuk menemukan solusi win-win.",
+                        "Memaksa mereka untuk berdamai.",
+                        "Tidak ikut campur dalam mediasi."
+                    ],
+                    answer: 1,
+                    explanation: "Mediasi yang efektif memerlukan netralitas, empati, dan kemampuan memfasilitasi dialog. (Kompetensi: Kerjasama, Komunikasi)",
+                    competency: ["Kerjasama", "Komunikasi"]
+                },
+                {
+                    question: "Apa peran data spasial (peta, citra satelit) dalam penanganan sengketa pertanahan?",
+                    options: [
+                        "Tidak ada peran.",
+                        "Menyediakan bukti objektif mengenai batas, penggunaan, dan riwayat tanah yang dapat membantu dalam analisis sengketa.",
+                        "Hanya sebagai ilustrasi.",
+                        "Untuk memperumit masalah."
+                    ],
+                    answer: 1,
+                    explanation: "Data spasial memberikan bukti konkret yang sangat membantu dalam penyelesaian sengketa. (Kompetensi: Analisis Data Spasial, Orientasi pada hasil)",
+                    competency: ["Analisis Data Spasial", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan penanganan sengketa dilakukan secara adil dan tidak diskriminatif?",
+                    options: [
+                        "Memperlakukan semua pihak sama tanpa memandang konteks.",
+                        "Menerapkan prosedur yang transparan, berdasarkan hukum dan fakta, serta tidak memihak pada latar belakang sosial atau ekonomi pihak manapun.",
+                        "Hanya melayani pihak yang memiliki koneksi.",
+                        "Mengabaikan prinsip keadilan."
+                    ],
+                    answer: 1,
+                    explanation: "Prinsip keadilan dan non-diskriminasi adalah inti dari penanganan sengketa yang profesional. (Kompetensi: Integritas, Perekat bangsa)",
+                    competency: ["Integritas", "Perekat bangsa"]
+                },
+                {
+                    question: "Apa yang harus dilakukan jika sengketa tidak dapat diselesaikan melalui mediasi internal?",
+                    options: [
+                        "Menghentikan penanganan sengketa.",
+                        "Mengarahkan pihak-pihak ke jalur hukum atau lembaga penyelesaian sengketa alternatif yang lebih tinggi sesuai peraturan.",
+                        "Memaksa salah satu pihak menyerah.",
+                        "Menyimpan berkas tanpa tindak lanjut."
+                    ],
+                    answer: 1,
+                    explanation: "Jika mediasi gagal, jalur hukum atau alternatif lain harus diinformasikan. (Kompetensi: Pengambilan keputusan, Regulasi Pertanahan)",
+                    competency: ["Pengambilan keputusan", "Regulasi Pertanahan"]
+                },
+                {
+                    question: "Bagaimana Anda mengelola emosi dan konflik yang intens antara pihak-pihak yang bersengketa?",
+                    options: [
+                        "Ikut emosi dan memarahi mereka.",
+                        "Tetap tenang, profesional, fokus pada fakta, dan membimbing diskusi ke arah solusi konstruktif.",
+                        "Menghindari interaksi langsung.",
+                        "Membiarkan mereka berdebat."
+                    ],
+                    answer: 1,
+                    explanation: "Mengelola emosi dalam situasi konflik memerlukan profesionalisme dan fokus pada solusi. (Kompetensi: Komunikasi, Mengelola perubahan)",
+                    competency: ["Komunikasi", "Mengelola perubahan"]
+                },
+                {
+                    question: "Apa pentingnya dokumentasi yang lengkap dan akurat dalam setiap tahapan penanganan sengketa?",
+                    options: [
+                        "Tidak penting, hanya membuang waktu.",
+                        "Sebagai bukti hukum, referensi, dan dasar untuk pengambilan keputusan di masa depan.",
+                        "Hanya untuk arsip pribadi.",
+                        "Untuk memperumit proses."
+                    ],
+                    answer: 1,
+                    explanation: "Dokumentasi yang akurat adalah krusial untuk integritas dan auditabilitas proses penanganan sengketa. (Kompetensi: Manajemen Dokumen, Integritas)",
+                    competency: ["Manajemen Dokumen", "Integritas"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan bahwa keputusan penyelesaian sengketa yang telah disepakati atau ditetapkan dilaksanakan oleh semua pihak?",
+                    options: [
+                        "Menganggap masalah selesai setelah keputusan dibuat.",
+                        "Melakukan pemantauan dan koordinasi dengan pihak terkait untuk memastikan implementasi keputusan, serta memberikan sanksi jika ada pelanggaran.",
+                        "Hanya mengandalkan janji lisan.",
+                        "Tidak ada tindak lanjut."
+                    ],
+                    answer: 1,
+                    explanation: "Implementasi keputusan adalah langkah terakhir yang memastikan sengketa benar-benar terselesaikan. (Kompetensi: Orientasi pada hasil, Kerjasama)",
+                    competency: ["Orientasi pada hasil", "Kerjasama"]
+                },
+                {
+                    question: "Bagaimana penanganan sengketa pertanahan dapat berkontribusi pada stabilitas sosial dan ekonomi daerah?",
+                    options: [
+                        "Tidak ada kontribusi.",
+                        "Dengan menyelesaikan konflik secara adil, menciptakan kepastian hukum atas tanah, dan mendorong investasi serta pembangunan yang berkelanjutan.",
+                        "Justru memperburuk stabilitas.",
+                        "Hanya berdampak pada individu."
+                    ],
+                    answer: 1,
+                    explanation: "Penyelesaian sengketa yang efektif memiliki dampak positif luas pada masyarakat dan pembangunan. (Kompetensi: Perekat bangsa, Pelayanan publik)",
+                    competency: ["Perekat bangsa", "Pelayanan publik"]
+                },
+                {
+                    question: "Apa peran edukasi dan sosialisasi hukum pertanahan dalam upaya pencegahan sengketa?",
+                    options: [
+                        "Tidak ada peran, sengketa pasti terjadi.",
+                        "Meningkatkan pemahaman masyarakat tentang hak dan kewajiban mereka, mengurangi ketidaktahuan yang sering menjadi pemicu sengketa.",
+                        "Hanya untuk menguntungkan pemerintah.",
+                        "Membuat hukum lebih rumit."
+                    ],
+                    answer: 1,
+                    explanation: "Edukasi adalah strategi proaktif untuk mencegah sengketa di masa depan. (Kompetensi: Pengembangan diri dan orang lain, Komunikasi)",
+                    competency: ["Pengembangan diri dan orang lain", "Komunikasi"]
+                }
+            ],
+            "Tata Usaha": [
+                {
+                    question: "Sebagai staf Tata Usaha, bagaimana Anda memastikan efisiensi pengelolaan dokumen surat masuk dan keluar?",
+                    options: [
+                        "Menyimpan semua dokumen di satu folder fisik tanpa klasifikasi.",
+                        "Menggunakan sistem digitalisasi dan klasifikasi berbasis metadata untuk memudahkan pencarian dan pengarsipan.",
+                        "Mendelegasikan sepenuhnya kepada staf junior tanpa pengawasan.",
+                        "Hanya mengelola dokumen penting dan mengabaikan yang lain."
+                    ],
+                    answer: 1,
+                    explanation: "Efisiensi pengelolaan dokumen sangat penting dalam Tata Usaha. Digitalisasi dan klasifikasi metadata membantu dalam pencarian dan pengarsipan yang cepat dan akurat. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
+                    competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Dalam rapat koordinasi, Anda diminta untuk menyusun notulen rapat yang komprehensif. Apa aspek kunci yang harus Anda perhatikan?",
+                    options: [
+                        "Mencatat hanya poin-poin yang Anda anggap penting.",
+                        "Mencatat semua diskusi secara verbatim tanpa merangkum.",
+                        "Mencatat keputusan, tindakan yang disepakati, penanggung jawab, dan tenggat waktu, serta poin-poin diskusi utama secara ringkas.",
+                        "Menyerahkan tugas notulen kepada peserta lain."
+                    ],
+                    answer: 2,
+                    explanation: "Notulen yang komprehensif mencakup keputusan, tindakan, penanggung jawab, tenggat waktu, dan ringkasan diskusi utama untuk memastikan kejelasan dan akuntabilitas. (Kompetensi: Komunikasi, Orientasi pada hasil)",
+                    competency: ["Komunikasi", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda mengelola jadwal pimpinan yang padat dan memastikan semua agenda terpenuhi tanpa tumpang tindih?",
+                    options: [
+                        "Mencatat jadwal secara manual di buku catatan.",
+                        "Menggunakan aplikasi kalender digital terintegrasi untuk penjadwalan, pengingat, dan sinkronisasi dengan tim.",
+                        "Membiarkan pimpinan mengatur jadwalnya sendiri.",
+                        "Hanya mengatur jadwal yang bersifat mendesak."
+                    ],
+                    answer: 1,
+                    explanation: "Penggunaan aplikasi kalender digital membantu dalam manajemen waktu yang efektif dan menghindari tumpang tindih jadwal. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
+                    competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Anda perlu menyiapkan laporan bulanan yang berisi data kinerja dari berbagai divisi. Bagaimana Anda memastikan akurasi dan konsistensi data dalam laporan tersebut?",
+                    options: [
+                        "Mengandalkan data yang diberikan tanpa verifikasi.",
+                        "Melakukan validasi silang data dari sumber yang berbeda dan mengkomunikasikan setiap anomali kepada divisi terkait.",
+                        "Membulatkan angka untuk menyederhanakan laporan.",
+                        "Menunda pembuatan laporan jika data belum lengkap."
+                    ],
+                    answer: 1,
+                    explanation: "Memastikan akurasi dan konsistensi data melalui validasi silang adalah kunci dalam penyusunan laporan yang kredibel. (Kompetensi: Orientasi pada hasil, Integritas)",
+                    competency: ["Orientasi pada hasil", "Integritas"]
+                },
+                {
+                    question: "Bagaimana Anda menangani permintaan informasi dari publik yang kompleks dan memerlukan data dari beberapa unit kerja?",
+                    options: [
+                        "Menolak permintaan karena terlalu rumit.",
+                        "Mengarahkan pemohon untuk mencari informasi sendiri.",
+                        "Mengkoordinasikan dengan unit kerja terkait untuk mengumpulkan informasi yang akurat dan menyampaikannya kepada pemohon secara jelas dan tepat waktu.",
+                        "Memberikan informasi seadanya agar cepat selesai."
+                    ],
+                    answer: 2,
+                    explanation: "Penanganan permintaan informasi yang efektif melibatkan koordinasi internal dan komunikasi yang jelas dengan publik, mencerminkan pelayanan publik yang baik. (Kompetensi: Pelayanan publik, Komunikasi, Kerjasama)",
+                    competency: ["Pelayanan publik", "Komunikasi", "Kerjasama"]
+                },
+                {
+                    question: "Anda bertanggung jawab atas inventarisasi aset kantor. Bagaimana Anda memastikan data inventaris selalu akurat dan up-to-date?",
+                    options: [
+                        "Melakukan inventarisasi hanya setahun sekali.",
+                        "Mencatat secara manual tanpa sistem terstruktur.",
+                        "Menggunakan sistem inventarisasi digital dengan pembaruan berkala dan audit fisik rutin.",
+                        "Hanya mencatat aset baru yang masuk."
+                    ],
+                    answer: 2,
+                    explanation: "Manajemen aset yang akurat memerlukan sistem digital dan pembaruan rutin untuk menjaga integritas data. (Kompetensi: Manajemen Dokumen, Orientasi pada hasil)",
+                    competency: ["Manajemen Dokumen", "Orientasi pada hasil"]
+                },
+                {
+                    question: "Bagaimana Anda memastikan ketersediaan perlengkapan kantor yang memadai untuk seluruh staf tanpa terjadi pemborosan?",
+                    options: [
+                        "Membeli perlengkapan dalam jumlah sangat besar sekaligus.",
+                        "Membuat daftar kebutuhan berdasarkan data penggunaan sebelumnya, melakukan pengadaan efisien, dan memantau stok secara berkala.",
+                        "Menunggu staf melaporkan kekurangan baru membeli."
+                    ],
+                    answer: 2,
+                    explanation: "Perencanaan dan pemantauan stok yang baik adalah kunci untuk efisiensi pengadaan perlengkapan kantor. (Kompetensi: Orientasi pada hasil, Pengambilan keputusan)",
+                    competency: ["Orientasi pada hasil", "Pengambilan keputusan"]
+                },
+                {
+                    question: "Anda perlu mengatur perjalanan dinas untuk pimpinan. Apa yang menjadi prioritas utama Anda dalam perencanaan ini?",
+                    options: [
+                        "Memesan tiket dan akomodasi termurah tanpa memperhatikan kenyamanan.",
+                        "Memastikan semua detail perjalanan (transportasi, akomodasi, jadwal pertemuan) terorganisir dengan baik dan sesuai kebutuhan pimpinan.",
+                        "Mendelegasikan semua tugas perencanaan kepada agen perjalanan.",
+                        "Hanya fokus pada tujuan utama perjalanan."
+                    ],
+                    answer: 1,
+                    explanation: "Prioritas utama adalah memastikan semua detail perjalanan terorganisir dengan baik untuk mendukung kelancaran agenda pimpinan. (Kompetensi: Orientasi pada hasil, Manajemen Dokumen)",
+                    competency: ["Orientasi pada hasil", "Manajemen Dokumen"]
+                },
+                {
+                    question: "Bagaimana Anda menangani informasi rahasia atau sensitif yang masuk ke unit Tata Usaha?",
+                    options: [
+                        "Membagikannya kepada rekan kerja untuk mendapatkan masukan.",
+                        "Menyimpannya di tempat yang mudah diakses semua orang.",
+                        "Menyimpan dan mengelola informasi tersebut sesuai prosedur keamanan data yang berlaku dan hanya membagikannya kepada pihak yang berhak.",
+                        "Mengabaikan label 'rahasia' jika tidak ada pengawasan langsung."
+                    ],
+                    answer: 2,
+                    explanation: "Penanganan informasi rahasia harus sesuai dengan prosedur keamanan data untuk menjaga integritas dan kerahasiaan. (Kompetensi: Integritas, Manajemen Dokumen)",
+                    competency: ["Integritas", "Manajemen Dokumen"]
+                },
+                {
+                    question: "Ketika ada tamu penting yang berkunjung ke kantor, bagaimana Anda memastikan kesan pertama yang profesional dan terorganisir?",
+                    options: [
+                        "Membiarkan tamu menunggu tanpa pendampingan.",
+                        "Menyambut dengan ramah, mengarahkan ke ruang tunggu yang nyaman, dan segera memberitahu pihak yang akan ditemui.",
+                        "Hanya fokus pada pekerjaan Anda sendiri.",
+                        "Meminta tamu untuk mencari sendiri orang yang dituju."
+                    ],
+                    answer: 1,
+                    explanation: "Memberikan kesan profesional dan terorganisir melalui penyambutan yang baik adalah bagian dari pelayanan publik yang efektif. (Kompetensi: Pelayanan publik, Komunikasi)",
+                    competency: ["Pelayanan publik", "Komunikasi"]
+                }
+            ]
+            // Tambahkan bank soal teknis untuk seksi lain di sini jika diperlukan
+        };
+
+        // Objek utama yang mereferensikan bank soal per seksi
+        const questionBanks = {
             "Seksi Survei dan Pemetaan": {
-                'mansoskul': generateComplexDummyQuestions("Seksi Survei dan Pemetaan", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Seksi Survei dan Pemetaan", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Seksi Survei dan Pemetaan"])
             },
             "Seksi Penetapan Hak dan Pendaftaran": {
-                'mansoskul': generateComplexDummyQuestions("Seksi Penetapan Hak dan Pendaftaran", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Seksi Penetapan Hak dan Pendaftaran", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Seksi Penetapan Hak dan Pendaftaran"])
             },
             "Seksi Penataan dan Pemberdayaan": {
-                'mansoskul': generateComplexDummyQuestions("Seksi Penataan dan Pemberdayaan", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Seksi Penataan dan Pemberdayaan", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Seksi Penataan dan Pemberdayaan"])
             },
             "Seksi Pengadaan Tanah dan Pengembangan": {
-                'mansoskul': generateComplexDummyQuestions("Seksi Pengadaan Tanah dan Pengembangan", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Seksi Pengadaan Tanah dan Pengembangan", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Seksi Pengadaan Tanah dan Pengembangan"])
             },
             "Seksi Pengendalian dan Penanganan Sengketa": {
-                'mansoskul': generateComplexDummyQuestions("Seksi Pengendalian dan Penanganan Sengketa", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Seksi Pengendalian dan Penanganan Sengketa", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Seksi Pengendalian dan Penanganan Sengketa"])
             },
             "Tata Usaha": {
-                'mansoskul': generateComplexDummyQuestions("Tata Usaha", 'mansoskul'),
-                'teknis': generateComplexDummyQuestions("Tata Usaha", 'teknis')
+                'mansoskul': duplicateQuestions(baseMansoskulQuestions),
+                'teknis': duplicateQuestions(baseTeknisQuestions["Tata Usaha"])
             }
         };
+
 
         // --- Fungsi UI Helper ---
         function showLoading(message = "Memuat soal...") {
@@ -769,7 +1475,6 @@
             hideAllSections();
             document.getElementById('testTypeSelectionSection').style.display = 'block'; // Tampilkan pilihan tipe tes
             document.getElementById('testTypeSelectionTitle').textContent = `Pilih Tipe Tes untuk ${section}`;
-            resetTest(); // Reset state, tapi soal belum dimuat
         }
 
         window.loadQuestionsByType = async function(type) { // Make global
@@ -780,9 +1485,14 @@
 
             showLoading(`Memuat 50 soal ${type === 'mansoskul' ? 'Manajerial & Sosial Kultural' : 'Teknis'} untuk ${currentSection}...`);
 
-            // await new Promise(resolve => setTimeout(resolve, 1500)); // Simulasi waktu loading - DIHAPUS
-
-            currentQuestions = [...allDummyQuestions[currentSection][type]]; // Muat soal sesuai tipe
+            if (questionBanks[currentSection] && questionBanks[currentSection][type]) {
+                currentQuestions = [...questionBanks[currentSection][type]];
+            } else {
+                alert('Bank soal tidak ditemukan untuk seksi atau tipe tes ini.');
+                goToDashboard();
+                return;
+            }
+            
             currentQuestions.sort(() => Math.random() - 0.5); // Acak soal
 
             hideLoading();
@@ -812,7 +1522,7 @@
                 const checked = userAnswers[currentQuestionIndex] === index ? 'checked' : '';
                 optionsHtml += `
                     <label>
-                        <input type="radio" name="question${currentQuestionIndex}" value="${index}" ${checked} onclick="recordAnswer(${index})">
+                        <input type="radio" name="question${currentQuestionIndex}" value="${index}" ${checked} data-question-index="${currentQuestionIndex}" data-option-index="${index}">
                         ${option}
                     </label>
                 `;
@@ -841,6 +1551,17 @@
                     </div>
                 </div>
             `;
+
+            // Attach event listeners to newly created radio buttons
+            const radios = document.querySelectorAll(`#questionContainer input[name="question${currentQuestionIndex}"]`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const qIndex = parseInt(event.target.dataset.questionIndex);
+                    const optionIndex = parseInt(event.target.dataset.optionIndex);
+                    recordAnswer(optionIndex);
+                });
+            });
+
 
             // Jika soal sudah dijawab, tampilkan feedback dan penjelasan
             if (userAnswers[currentQuestionIndex] !== null) {
@@ -981,10 +1702,32 @@
         // Inisialisasi tampilan dashboard saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
             goToDashboard();
+
+            // Attach event listeners for section cards
+            document.getElementById('btnSurveiPemetaan').addEventListener('click', () => startTest('Seksi Survei dan Pemetaan'));
+            document.getElementById('btnPenetapanHak').addEventListener('click', () => startTest('Seksi Penetapan Hak dan Pendaftaran'));
+            document.getElementById('btnPenataanPemberdayaan').addEventListener('click', () => startTest('Seksi Penataan dan Pemberdayaan'));
+            document.getElementById('btnPengadaanTanah').addEventListener('click', () => startTest('Seksi Pengadaan Tanah dan Pengembangan'));
+            document.getElementById('btnPengendalianSengketa').addEventListener('click', () => startTest('Seksi Pengendalian dan Penanganan Sengketa'));
+            document.getElementById('btnTataUsaha').addEventListener('click', () => startTest('Tata Usaha'));
+
+            // Attach event listeners for test type selection cards
+            document.getElementById('btnStartMansoskul').addEventListener('click', () => loadQuestionsByType('mansoskul'));
+            document.getElementById('btnStartTeknis').addEventListener('click', () => loadQuestionsByType('teknis'));
+
+
+            // Attach event listeners for navigation and history buttons
+            document.getElementById('btnViewHistory').addEventListener('click', viewTestHistory);
+            document.getElementById('btnBackToDashboardFromTypeSelection').addEventListener('click', goToDashboard);
+            document.getElementById('btnBackToDashboardFromQuiz').addEventListener('click', goToDashboard);
+            document.getElementById('btnBackToDashboardFromHistory').addEventListener('click', goToDashboard);
+            document.getElementById('btnBackToDashboardFromResult').addEventListener('click', goToDashboard);
+
+            // Attach event listeners for question navigation buttons
+            document.getElementById('prevQuestionBtn').addEventListener('click', prevQuestion);
+            document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+            document.getElementById('submitTestBtn').addEventListener('click', submitTest);
         });
     </script>
-     <footer class="fixed bottom-0 left-0 w-full bg-gray-700 text-white text-center p-2 text-sm">
-        Aplikasi ini hanya untuk pembelajaran, tidak menjamin soal keluar saat tes - Pabar Punya -
-    </footer>
 </body>
 </html>
